@@ -47,6 +47,7 @@
         <button onclick="setSubCat('shoes')" id="sub-shoes">پێلاف</button>
     </div>
 
+    <!-- پەنێلا ڕێڤەبەری -->
     <div class="admin-panel" id="adminPanel">
         <button class="logout-btn" onclick="logout()">چوونە دەرڤە</button>
         <h3 style="margin-bottom: 15px; color: #1e293b; clear: both;">زیادکرنا بەرهەمەکا نوو</h3>
@@ -73,12 +74,10 @@
         const whatsappNumber = '9647507070313';
         const adminPassword = 'zaxorz@1010';
         
-        // داتابەیسا سەرانسەری (JSONbin)
-        const BIN_ID = '67cc3f68e41b4d34e49ea23a';
-        const API_KEY = '$2a$10$w4C344k4X1fK4y5D.gN2leTzF5r32B1l2n9/Z9K8X2Q2u1K1m1K1m'; 
-        
         let currentSub = 'all';
-        let allProducts = [];
+        let allProducts = JSON.parse(localStorage.getItem('rz_local_products')) || [
+            {name: "تيشيرتی لۆنگ-سليفی (OC Navy)", price: "15,000", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600", sub: "tshirt"}
+        ];
 
         function requestAdminAccess() {
             let pass = prompt("پاسووردێ ڕێڤەبەری بنڤیسە:");
@@ -112,6 +111,62 @@
             renderProducts();
         }
 
-        async function fetchProducts() {
-            try {
-                let res = await fetch(`https
+        function renderProducts() {
+            let container = document.getElementById('products-container');
+            container.innerHTML = '';
+
+            let filtered = currentSub === 'all' ? allProducts : allProducts.filter(p => p.sub === currentSub);
+
+            if(filtered.length === 0) {
+                container.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: #64748b; padding: 30px; font-size: 16px;">چ بەرهەم د ڤی بەشی دا نینە.</p>';
+                return;
+            }
+
+            filtered.forEach(p => {
+                let subName = p.sub === 'tshirt' ? 'تیشێرت' : (p.sub === 'shirt' ? 'قەمیس' : (p.sub === 'jeans' ? 'کابۆ' : 'پێلاف'));
+                container.innerHTML += `
+                    <div class="product-card">
+                        <span class="badge">${subName}</span>
+                        <img src="${p.image}" alt="${p.name}">
+                        <h3>${p.name}</h3>
+                        <p class="price">${p.price} دينار</p>
+                        <button class="buy-btn" onclick="buy('${p.name}', '${p.price}')">زيادکردن بۆ سەبەتە</button>
+                    </div>
+                `;
+            });
+        }
+
+        function addProduct() {
+            let name = document.getElementById('pName').value;
+            let price = document.getElementById('pPrice').value;
+            let image = document.getElementById('pImage').value;
+            let sub = document.getElementById('pSubCat').value;
+
+            if(!name || !price || !image) {
+                alert('هەمی خانەیان تژی بکە!');
+                return;
+            }
+
+            let newProduct = {name, price, image, sub};
+            allProducts.push(newProduct);
+            localStorage.setItem('rz_local_products', JSON.stringify(allProducts));
+
+            document.getElementById('pName').value = '';
+            document.getElementById('pPrice').value = '';
+            document.getElementById('pImage').value = '';
+
+            let subName = sub === 'tshirt' ? 'تیشێرت' : (sub === 'shirt' ? 'قەمیس' : (sub === 'jeans' ? 'کابۆ' : 'پێلاف'));
+            renderProducts();
+            alert(`بەرهەم ب سەرکەفتن هاتە زیادکرن بۆ بەشێ (${subName})!`);
+        }
+
+        function buy(name, price) {
+            let msg = `سڵاو، من دڤێت ڤی بەرهەمی بکڕم:\nبەرهەم: ${name}\nنرخ: ${price} دينار`;
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        checkAuth();
+        renderProducts();
+    </script>
+</body>
+</html>
