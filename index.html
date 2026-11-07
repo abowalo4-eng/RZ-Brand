@@ -225,13 +225,111 @@
 
     <script>
         const products = [
-            { id: 1, name: "<div class="product-card">
-    <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600" alt="OC Navy T-Shirt">
-    <h3>تيشيرتی لۆنگ-سليفی (OC Navy)</h3>
-    <p class="price">15,000 دينار</p>
-    <button onclick="addToCart('تيشيرتی لۆنگ-سليفی (OC Navy)', 15000)">زيادکردن بۆ سەبەتە</button>
-</div>
- },
+            { id: 1, name: <!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RZ Brand - دوکانا تیشێرتان</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+            padding-bottom: 80px;
+        }
+        header {
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+            text-align: center;
+            padding: 15px;
+        }
+        .product-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .product-card h3 {
+            font-size: 18px;
+            margin: 15px 0 10px;
+        }
+        .price {
+            font-size: 16px;
+            color: #16a34a;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>RZ Brand</h1>
+        <p>باشترین و جوانترین تیشێرت</p>
+    </header>
+
+    <div class="container">
+        <!-- بەرهەمێ یەکەم -->
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600" alt="OC Navy T-Shirt">
+            <h3>تيشيرتی لۆنگ-سليفی (OC Navy)</h3>
+            <p class="price">15,000 دينار</p>
+            <button onclick="addToCart('تيشيرتی لۆنگ-سليفی (OC Navy)', 15000)">زيادکردن بۆ سەبەتە</button>
+        </div>
+    </div>
+
+    <script>
+        function addToCart(productName, price) {
+            let phone = "964750000000"; // لێرە ژمارا واتسئاپێ خۆ بنڤیسە
+            let message = `سڵاو، من دڤێت ڤی بەرهەمی بکڕم: ${productName} - نرخ: ${price} دينار`;
+            let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+
+</body>
+</html>
+
             { id: 2, name: "پانتۆلێ کاوبۆی", category: "men", price: 25000, emoji: "👖" },
             { id: 3, name: "فستانێ درێژ", category: "women", price: 35000, emoji: "👗" },
             { id: 4, name: "کابوتێ زڤستانێ", category: "women", price: 45000, emoji: "🧥" },
