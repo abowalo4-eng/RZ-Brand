@@ -3,302 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RZ-Shoping </title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        body {
-            background-color: #f8fafc;
-            color: #0f172a;
-            padding-bottom: 80px;
-        }
-
-        header {
-            background-color: #1e293b;
-            color: #ffffff;
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        header h1 {
-            font-size: 1.25rem;
-        }
-
-        .phone-config {
-            background: #334155;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-        }
-
-        .phone-config input {
-            background: #0f172a;
-            border: 1px solid #475569;
-            color: white;
-            padding: 0.3rem 0.5rem;
-            border-radius: 4px;
-            width: 130px;
-            text-align: center;
-            direction: ltr;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 1.5rem auto;
-            padding: 0 1rem;
-        }
-
-        .filters {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-        }
-
-        .filter-btn {
-            background: #e2e8f0;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        .filter-btn.active {
-            background: #2563eb;
-            color: white;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.25rem;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-image {
-            width: 100%;
-            height: 200px;
-            background: #f1f5f9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-        }
-
-        .product-info {
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .product-title {
-            font-weight: bold;
-            margin-bottom: 0.25rem;
-        }
-
-        .product-category {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-price {
-            font-weight: bold;
-            color: #16a34a;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .add-to-cart {
-            margin-top: auto;
-            background: #0f172a;
-            color: white;
-            border: none;
-            padding: 0.6rem;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 0.9rem;
-        }
-
-        .cart-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 1px solid #cbd5e1;
-            padding: 1rem;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
-        }
-
-        .cart-content {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .order-btn {
-            background: #25d366;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-        }
-
-        @media (max-width: 600px) {
-            header {
-                flex-direction: column;
-                gap: 0.75rem;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>🛍️ کەتەلۆگا جلوبەرگان</h1>
-        <div class="phone-config">
-            <label for="phone">ژمارا WhatsApp:</label>
-            <input type="text" id="phone" value="9647507070313" onchange="updatePhone()">
-        </div>
-    </header>
-
-    <div class="container">
-        <div class="filters">
-            <button class="filter-btn active" onclick="filterCategory('all', this)">هەمی</button>
-            <button class="filter-btn" onclick="filterCategory('men', this)">مێرانە</button>
-            <button class="filter-btn" onclick="filterCategory('women', this)">ژنانە</button>
-            <button class="filter-btn" onclick="filterCategory('kids', this)">زارۆکانە</button>
-        </div>
-
-        <div class="products-grid" id="productsGrid"></div>
-    </div>
-
-    <div class="cart-bar">
-        <div class="cart-content">
-            <div>
-                <span>سەبەتە: </span>
-                <b id="cartCount">0</b> کەرەستە
-                (<b id="cartTotal">0,000</b> دینار)
-            </div>
-            <button class="order-btn" onclick="sendToWhatsApp()">
-                داواکرن ب WhatsApp
-            </button>
-        </div>
-    </div>
-
-    <script>
-        const products = [
-            { id: 1, name: <!DOCTYPE html>
-<html lang="ku" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RZ Brand - دوکانا تیشێرتان</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, sans-serif;
-        }
-        body {
-            background-color: #f8fafc;
-            color: #0f172a;
-            padding-bottom: 80px;
-        }
-        header {
-            background-color: #1e293b;
-            color: #ffffff;
-            padding: 20px;
-            text-align: center;
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 15px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .product-card {
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            overflow: hidden;
-            text-align: center;
-            padding: 15px;
-        }
-        .product-card img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        .product-card h3 {
-            font-size: 18px;
-            margin: 15px 0 10px;
-        }
-        .price {
-            font-size: 16px;
-            color: #16a34a;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        button {
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-        }
-        button:hover {
-            background-color: #1d4ed8;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+        body { background-color: #f8fafc; color: #0f172a; padding-bottom: 50px; }
+        header { background-color: #1e293b; color: white; padding: 20px; text-align: center; }
+        .admin-box { max-width: 600px; margin: 20px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .admin-box h3 { margin-bottom: 15px; color: #1e293b; }
+        .admin-box input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 8px; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .product-card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; padding: 15px; }
+        .product-card img { width: 100%; height: 280px; object-fit: cover; border-radius: 8px; }
+        .product-card h3 { font-size: 18px; margin: 15px 0 10px; }
+        .price { font-size: 16px; color: #16a34a; font-weight: bold; margin-bottom: 15px; }
+        button { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; width: 100%; font-weight: bold; }
+        button:hover { background-color: #1d4ed8; }
+        .btn-green { background-color: #16a34a; margin-top: 5px; }
+        .btn-green:hover { background-color: #15803d; }
     </style>
 </head>
 <body>
@@ -308,111 +29,70 @@
         <p>باشترین و جوانترین تیشێرت</p>
     </header>
 
-    <div class="container">
-        <!-- بەرهەمێ یەکەم -->
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600" alt="OC Navy T-Shirt">
-            <h3>تيشيرتی لۆنگ-سليفی (OC Navy)</h3>
-            <p class="price">15,000 دينار</p>
-            <button onclick="addToCart('تيشيرتی لۆنگ-سليفی (OC Navy)', 15000)">زيادکردن بۆ سەبەتە</button>
-        </div>
+    <div class="admin-box">
+        <h3>زیادکرنا تیشێرتەکا نوو</h3>
+        <input type="text" id="pName" placeholder="ناڤێ تیشێرتی (بۆ نموونە: OC Navy)">
+        <input type="text" id="pPrice" placeholder="نرخ (بۆ نموونە: 15000)">
+        <input type="text" id="pImage" placeholder="لینکا وێنەی (Image URL)">
+        <button class="btn-green" onclick="addProduct()">زیادکرن ل سەر سایت</button>
     </div>
 
+    <div class="container" id="products-container"></div>
+
     <script>
-        function addToCart(productName, price) {
-            let phone = "964750000000"; // لێرە ژمارا واتسئاپێ خۆ بنڤیسە
-            let message = `سڵاو، من دڤێت ڤی بەرهەمی بکڕم: ${productName} - نرخ: ${price} دينار`;
-            let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
-        }
-    </script>
+        const whatsappNumber = '964750000000';
 
-</body>
-</html>
+        function loadProducts() {
+            let products = JSON.parse(localStorage.getItem('rz_products')) || [
+                {name: "تيشيرتی لۆنگ-سليفی (OC Navy)", price: "15,000", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600"}
+            ];
 
-            { id: 2, name: "پانتۆلێ کاوبۆی", category: "men", price: 25000, emoji: "👖" },
-            { id: 3, name: "فستانێ درێژ", category: "women", price: 35000, emoji: "👗" },
-            { id: 4, name: "کابوتێ زڤستانێ", category: "women", price: 45000, emoji: "🧥" },
-            { id: 5, name: "جلکێن زارۆکان", category: "kids", price: 18000, emoji: "👶" },
-            { id: 6, name: "قمێصێ کەژواڵ", category: "men", price: 20000, emoji: "👔" }
-        ];
+            let container = document.getElementById('products-container');
+            container.innerHTML = '';
 
-        let cart = [];
-        let whatsappNumber = "9647507070313";
-
-        function updatePhone() {
-            whatsappNumber = document.getElementById("phone").value.trim();
-        }
-
-        function renderProducts(items) {
-            const grid = document.getElementById("productsGrid");
-            grid.innerHTML = "";
-            items.forEach(p => {
-                grid.innerHTML += `
+            products.forEach(p => {
+                container.innerHTML += `
                     <div class="product-card">
-                        <div class="product-image">${p.emoji}</div>
-                        <div class="product-info">
-                            <div class="product-title">${p.name}</div>
-                            <div class="product-category">${getCategoryName(p.category)}</div>
-                            <div class="product-price">${p.price.toLocaleString()} دینار</div>
-                            <button class="add-to-cart" onclick="addToCart(${p.id})">زێدەکرن بۆ سەبەتەیێ</button>
-                        </div>
+                        <img src="${p.image}" alt="${p.name}">
+                        <h3>${p.name}</h3>
+                        <p class="price">${p.price} دينار</p>
+                        <button onclick="buy('${p.name}', '${p.price}')">زيادکردن بۆ سەبەتە</button>
                     </div>
                 `;
             });
         }
 
-        function getCategoryName(cat) {
-            if (cat === "men") return "مێرانە";
-            if (cat === "women") return "ژنانە";
-            return "زارۆکانە";
-        }
+        function addProduct() {
+            let name = document.getElementById('pName').value;
+            let price = document.getElementById('pPrice').value;
+            let image = document.getElementById('pImage').value;
 
-        function filterCategory(category, btn) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            if (category === 'all') {
-                renderProducts(products);
-            } else {
-                renderProducts(products.filter(p => p.category === category));
-            }
-        }
-
-        function addToCart(id) {
-            const item = products.find(p => p.id === id);
-            cart.push(item);
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            document.getElementById("cartCount").innerText = cart.length;
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            document.getElementById("cartTotal").innerText = total.toLocaleString();
-        }
-
-        function sendToWhatsApp() {
-            if (cart.length === 0) {
-                alert("تکایە بەرهەمەکێ هەڵبژێره!");
+            if(!name || !price || !image) {
+                alert('هەمی خانەیان تژی بکە!');
                 return;
             }
 
-            let text = "سڵاو، من دڤێت ڤان جلوبەرگان داخاز بکەم:%0A%0A";
-            let total = 0;
-            
-            cart.forEach((item, index) => {
-                text += `${index + 1}. ${item.name} - ${item.price.toLocaleString()} دینار%0A`;
-                total += item.price;
-            });
+            let products = JSON.parse(localStorage.getItem('rz_products')) || [
+                {name: "تيشيرتی لۆنگ-سليفی (OC Navy)", price: "15,000", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600"}
+            ];
 
-            text += `%0A*کۆمیا گشتی:* ${total.toLocaleString()} دینار`;
+            products.push({name, price, image});
+            localStorage.setItem('rz_products', JSON.stringify(products));
 
-            const url = `https://wa.me/${whatsappNumber}?text=${text}`;
-            window.open(url, '_blank');
+            document.getElementById('pName').value = '';
+            document.getElementById('pPrice').value = '';
+            document.getElementById('pImage').value = '';
+
+            loadProducts();
+            alert('تیشێرت ب سەرکەفتن هاتە زیادکرن!');
         }
 
-        // دەستپێکرنا ئێکەم
-        renderProducts(products);
+        loadProducts();
+
+        function buy(name, price) {
+            let msg = `سڵاو، من دڤێت ڤی بەرهەمی بکڕم: ${name} - نرخ: ${price} دينار`;
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
     </script>
 </body>
 </html>
