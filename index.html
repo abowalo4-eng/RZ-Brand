@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دوکانا جلوبەرگان</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+            padding-bottom: 80px;
+        }
+
+        header {
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 1.25rem;
+        }
+
+        .phone-config {
+            background: #334155;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .phone-config input {
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: white;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            width: 130px;
+            text-align: center;
+            direction: ltr;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .filter-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .filter-btn.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .product-info {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .product-category {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-weight: bold;
+            color: #16a34a;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .add-to-cart {
+            margin-top: auto;
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #cbd5e1;
+            padding: 1rem;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+        }
+
+        .cart-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-btn {
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🛍️ کەتەلۆگا جلوبەرگان</h1>
+        <div class="phone-config">
+            <label for="phone">ژمارا WhatsApp:</label>
+            <input type="text" id="phone" value="9647500000000" onchange="updatePhone()">
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterCategory('all', this)">هەمی</button>
+            <button class="filter-btn" onclick="filterCategory('men', this)">مێرانە</button>
+            <button class="filter-btn" onclick="filterCategory('women', this)">ژنانە</button>
+            <button class="filter-btn" onclick="filterCategory('kids', this)">زارۆکانە</button>
+        </div>
+
+        <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <div class="cart-bar">
+        <div class="cart-content">
+            <div>
+                <span>سەبەتە: </span>
+                <b id="cartCount">0</b> کەرەستە
+                (<b id="cartTotal">0,000</b> دینار)
+            </div>
+            <button class="order-btn" onclick="sendToWhatsApp()">
+                داواکرن ب WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: "تێشێرتێ سپی", category: "men", price: 15000, emoji: "👕" },
+            { id: 2, name: "پانتۆلێ کاوبۆی", category: "men", price: 25000, emoji: "👖" },
+            { id: 3, name: "فستانێ درێژ", category: "women", price: 35000, emoji: "👗" },
+            { id: 4, name: "کابوتێ زڤستانێ", category: "women", price: 45000, emoji: "🧥" },
+            { id: 5, name: "جلکێن زارۆکان", category: "kids", price: 18000, emoji: "👶" },
+            { id: 6, name: "قمێصێ کەژواڵ", category: "men", price: 20000, emoji: "👔" }
+        ];
+
+        let cart = [];
+        let whatsappNumber = "9647500000000";
+
+        function updatePhone() {
+            whatsappNumber = document.getElementById("phone").value.trim();
+        }
+
+        function renderProducts(items) {
+            const grid = document.getElementById("productsGrid");
+            grid.innerHTML = "";
+            items.forEach(p => {
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <div class="product-image">${p.emoji}</div>
+                        <div class="product-info">
+                            <div class="product-title">${p.name}</div>
+                            <div class="product-category">${getCategoryName(p.category)}</div>
+                            <div class="product-price">${p.price.toLocaleString()} دینار</div>
+                            <button class="add-to-cart" onclick="addToCart(${p.id})">زێدەکرن بۆ سەبەتەیێ</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function getCategoryName(cat) {
+            if (cat === "men") return "مێرانە";
+            if (cat === "women") return "ژنانە";
+            return "زارۆکانە";
+        }
+
+        function filterCategory(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            if (category === 'all') {
+                renderProducts(products);
+            } else {
+                renderProducts(products.filter(p => p.category === category));
+            }
+        }
+
+        function addToCart(id) {
+            const item = products.find(p => p.id === id);
+            cart.push(item);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById("cartCount").innerText = cart.length;
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById("cartTotal").innerText = total.toLocaleString();
+        }
+
+        function sendToWhatsApp() {
+            if (cart.length === 0) {
+                alert("تکایە بەرهەمەکێ هەڵبژێره!");
+                return;
+            }
+
+            let text = "سڵاو، من دڤێت ڤان جلوبەرگان داوا بکەم:%0A%0A";
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                text += `${index + 1}. ${item.name} - ${item.price.toLocaleString()} دینار%0A`;
+                total += item.price;
+            });
+
+            text += `%0A*کۆمیا گشتی:* ${total.toLocaleString()} دینار`;
+
+            const url = `https://wa.me/${whatsappNumber}?text=${text}`;
+            window.open(url, '_blank');
+        }
+
+        // دەستپێکرنا ئێکەم
+        renderProducts(products);
+    </script>
+</body>
+</html>
