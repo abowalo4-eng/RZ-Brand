@@ -39,7 +39,6 @@
         <p>باشترین و جوانترین جلوبەرگ</p>
     </header>
 
-    <!-- بەشێن جۆران (کابۆ، قەمیس، تیشێرت، پێلاف) -->
     <div class="sub-categories">
         <button onclick="setSubCat('all')" id="sub-all" class="active">هەمی بەرهەم</button>
         <button onclick="setSubCat('tshirt')" id="sub-tshirt">تیشێرت</button>
@@ -48,7 +47,6 @@
         <button onclick="setSubCat('shoes')" id="sub-shoes">پێلاف</button>
     </div>
 
-    <!-- پەنێلا ڕێڤەبەری (بۆ زیادکرنا بەرهەمان) -->
     <div class="admin-panel" id="adminPanel">
         <button class="logout-btn" onclick="logout()">چوونە دەرڤە</button>
         <h3 style="margin-bottom: 15px; color: #1e293b; clear: both;">زیادکرنا بەرهەمەکا نوو</h3>
@@ -67,7 +65,6 @@
         <button class="btn-green" onclick="addProduct()">زیادکرن ل سەر سایت</button>
     </div>
 
-    <!-- کەتەلۆگێ بەرهەمان -->
     <div class="container" id="products-container"></div>
 
     <script>
@@ -123,49 +120,4 @@
             }
 
             filtered.forEach(p => {
-                let subName = p.sub === 'tshirt' ? 'تیشێرت' : (p.sub === 'shirt' ? 'قەمیس' : (p.sub === 'jeans' ? 'کابۆ' : 'پێلاف'));
-                container.innerHTML += `
-                    <div class="product-card">
-                        <span class="badge">${subName}</span>
-                        <img src="${p.image}" alt="${p.name}">
-                        <h3>${p.name}</h3>
-                        <p class="price">${p.price} دينار</p>
-                        <button class="buy-btn" onclick="buy('${p.name}', '${p.price}')">زيادکردن بۆ سەبەتە</button>
-                    </div>
-                `;
-            });
-        }
-
-        function addProduct() {
-            let name = document.getElementById('pName').value;
-            let price = document.getElementById('pPrice').value;
-            let image = document.getElementById('pImage').value;
-            let sub = document.getElementById('pSubCat').value;
-
-            if(!name || !price || !image) {
-                alert('هەمی خانەیان تژی بکە!');
-                return;
-            }
-
-            let products = JSON.parse(localStorage.getItem('rz_products')) || [
-                {name: "تيشيرتی لۆنگ-سليفی (OC Navy)", price: "15,000", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600", sub: "tshirt"}
-            ];
-
-            products.push({name, price, image, sub});
-            localStorage.setItem('rz_products', JSON.stringify(products));
-
-            document.getElementById('pName').value = '';
-            document.getElementById('pPrice').value = '';
-            document.getElementById('pImage').value = '';
-
-            let subName = sub === 'tshirt' ? 'تیشێرت' : (sub === 'shirt' ? 'قەمیس' : (sub === 'jeans' ? 'کابۆ' : 'پێلاف'));
-
-            loadProducts();
-            alert(`تیشێرت ب سەرکەفتن هاتە زیادکرن بۆ بەشێ (${subName})!`);
-        }
-
-        checkAuth();
-        loadProducts();
-    </script>
-</body>
-</html>
+                let subName = p.sub === 'tshirt' ? 'تیشێرت' : (p
