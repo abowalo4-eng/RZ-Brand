@@ -7,27 +7,24 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
         body { background-color: #f8fafc; color: #0f172a; padding-bottom: 50px; }
-        header { background-color: #1e293b; color: white; padding: 20px; text-align: center; }
+        header { background-color: #1e293b; color: white; padding: 20px; text-align: center; position: relative; }
         
-        .main-categories { display: flex; justify-content: center; gap: 10px; background: #334155; padding: 12px; }
-        .main-categories button { background: transparent; color: white; border: 1px solid #64748b; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .main-categories button.active, .main-categories button:hover { background: #2563eb; border-color: #2563eb; }
-
-        .sub-categories { display: flex; justify-content: center; gap: 8px; background: #e2e8f0; padding: 10px; overflow-x: auto; }
-        .sub-categories button { background: white; color: #334155; border: none; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: bold; }
+        .sub-categories { display: flex; justify-content: center; gap: 8px; background: #e2e8f0; padding: 12px; overflow-x: auto; }
+        .sub-categories button { background: white; color: #334155; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: bold; }
         .sub-categories button.active, .sub-categories button:hover { background: #1e293b; color: white; }
 
         .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .product-card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; padding: 15px; }
+        .product-card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; padding: 15px; position: relative; }
         .product-card img { width: 100%; height: 280px; object-fit: cover; border-radius: 8px; }
         .product-card h3 { font-size: 18px; margin: 15px 0 10px; }
         .price { font-size: 16px; color: #16a34a; font-weight: bold; margin-bottom: 15px; }
+        .badge { position: absolute; top: 25px; right: 25px; background: #2563eb; color: white; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; }
         
         button.buy-btn { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; width: 100%; font-weight: bold; }
         button.buy-btn:hover { background-color: #1d4ed8; }
 
-        /* پەنێلا ڕێڤەبەری (ڤەشارتي) */
-        .hidden-admin-trigger { text-align: center; margin: 30px; font-size: 12px; color: #94a3b8; cursor: pointer; }
+        .hidden-admin-trigger { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.1); border: none; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; }
+        
         .admin-panel { max-width: 600px; margin: 20px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: none; }
         .admin-panel input, .admin-panel select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 8px; }
         .btn-green { background-color: #16a34a; color: white; border: none; padding: 10px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; }
@@ -37,33 +34,21 @@
 <body>
 
     <header>
+        <button class="hidden-admin-trigger" onclick="requestAdminAccess()">⚙️ ڕێڤەبەر</button>
         <h1>RZ Brand</h1>
         <p>باشترین و جوانترین جلوبەرگ</p>
     </header>
 
-    <!-- بەشێن سەرەکی (زەڵام، ژن، زارۆک) -->
-    <div class="main-categories">
-        <button onclick="setMainCat('men')" id="btn-men" class="active">زەڵام</button>
-        <button onclick="setMainCat('women')" id="btn-women">ژن</button>
-        <button onclick="setMainCat('kids')" id="btn-kids">زارۆک</button>
-    </div>
-
-    <!-- بەشێن ناوەکی (کابۆ، قەمیس، تیشێرت، پێلاف) -->
+    <!-- بەشێن جۆران (کابۆ، قەمیس، تیشێرت، پێلاف) -->
     <div class="sub-categories">
-        <button onclick="setSubCat('all')" id="sub-all" class="active">هەمی</button>
+        <button onclick="setSubCat('all')" id="sub-all" class="active">هەمی بەرهەم</button>
         <button onclick="setSubCat('tshirt')" id="sub-tshirt">تیشێرت</button>
         <button onclick="setSubCat('shirt')" id="sub-shirt">قەمیس</button>
         <button onclick="setSubCat('jeans')" id="sub-jeans">کابۆ</button>
         <button onclick="setSubCat('shoes')" id="sub-shoes">پێلاف</button>
     </div>
 
-    <!-- کەتەلۆگێ بەرهەمان -->
-    <div class="container" id="products-container"></div>
-
-    <!-- دوگمەیا ڤەشارتي بۆ ڤەکرنا ڕێڤەبەری -->
-    <div class="hidden-admin-trigger" onclick="requestAdminAccess()">⚙️ ڕێڤەبەر</div>
-
-    <!-- پەنێلا ڕێڤەبەری -->
+    <!-- پەنێلا ڕێڤەبەری (بۆ زیادکرنا بەرهەمان) -->
     <div class="admin-panel" id="adminPanel">
         <button class="logout-btn" onclick="logout()">چوونە دەرڤە</button>
         <h3 style="margin-bottom: 15px; color: #1e293b; clear: both;">زیادکرنا بەرهەمەکا نوو</h3>
@@ -71,13 +56,6 @@
         <input type="text" id="pPrice" placeholder="نرخ (بۆ نموونە: 15000)">
         <input type="text" id="pImage" placeholder="لینکا وێنەی (Image URL)">
         
-        <label style="font-size: 14px; font-weight: bold; color: #475569;">بەشێ سەرەکی:</label>
-        <select id="pMainCat">
-            <option value="men">زەڵام</option>
-            <option value="women">ژن</option>
-            <option value="kids">زارۆک</option>
-        </select>
-
         <label style="font-size: 14px; font-weight: bold; color: #475569;">جۆرێ بەرهەمی:</label>
         <select id="pSubCat">
             <option value="tshirt">تیشێرت</option>
@@ -89,11 +67,12 @@
         <button class="btn-green" onclick="addProduct()">زیادکرن ل سەر سایت</button>
     </div>
 
+    <!-- کەتەلۆگێ بەرهەمان -->
+    <div class="container" id="products-container"></div>
+
     <script>
         const whatsappNumber = '964750000000';
         const adminPassword = 'zaxorz@1010';
-
-        let currentMain = 'men';
         let currentSub = 'all';
 
         function requestAdminAccess() {
@@ -121,13 +100,6 @@
             }
         }
 
-        function setMainCat(cat) {
-            currentMain = cat;
-            document.querySelectorAll('.main-categories button').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-' + cat).classList.add('active');
-            loadProducts();
-        }
-
         function setSubCat(sub) {
             currentSub = sub;
             document.querySelectorAll('.sub-categories button').forEach(b => b.classList.remove('active'));
@@ -136,4 +108,64 @@
         }
 
         function loadProducts() {
-            let products = JSON.parse(
+            let products = JSON.parse(localStorage.getItem('rz_products')) || [
+                {name: "تيشيرتی لۆنگ-سليفی (OC Navy)", price: "15,000", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600", sub: "tshirt"}
+            ];
+
+            let container = document.getElementById('products-container');
+            container.innerHTML = '';
+
+            let filtered = currentSub === 'all' ? products : products.filter(p => p.sub === currentSub);
+
+            if(filtered.length === 0) {
+                container.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: #64748b;">چ بەرهەم د ڤی بەشی دا نینە.</p>';
+                return;
+            }
+
+            filtered.forEach(p => {
+                let subName = p.sub === 'tshirt' ? 'تیشێرت' : (p.sub === 'shirt' ? 'قەمیس' : (p.sub === 'jeans' ? 'کابۆ' : 'پێلاف'));
+                container.innerHTML += `
+                    <div class="product-card">
+                        <span class="badge">${subName}</span>
+                        <img src="${p.image}" alt="${p.name}">
+                        <h3>${p.name}</h3>
+                        <p class="price">${p.price} دينار</p>
+                        <button class="buy-btn" onclick="buy('${p.name}', '${p.price}')">زيادکردن بۆ سەبەتە</button>
+                    </div>
+                `;
+            });
+        }
+
+        function addProduct() {
+            let name = document.getElementById('pName').value;
+            let price = document.getElementById('pPrice').value;
+            let image = document.getElementById('pImage').value;
+            let sub = document.getElementById('pSubCat').value;
+
+            if(!name || !price || !image) {
+                alert('هەمی خانەیان تژی بکە!');
+                return;
+            }
+
+            let products = JSON.parse(localStorage.getItem('rz_products')) || [
+                {name: "تيشيرتی لۆنگ-سليفی (OC Navy)", price: "15,000", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600", sub: "tshirt"}
+            ];
+
+            products.push({name, price, image, sub});
+            localStorage.setItem('rz_products', JSON.stringify(products));
+
+            document.getElementById('pName').value = '';
+            document.getElementById('pPrice').value = '';
+            document.getElementById('pImage').value = '';
+
+            let subName = sub === 'tshirt' ? 'تیشێرت' : (sub === 'shirt' ? 'قەمیس' : (sub === 'jeans' ? 'کابۆ' : 'پێلاف'));
+
+            loadProducts();
+            alert(`تیشێرت ب سەرکەفتن هاتە زیادکرن بۆ بەشێ (${subName})!`);
+        }
+
+        checkAuth();
+        loadProducts();
+    </script>
+</body>
+</html>
