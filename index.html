@@ -8,18 +8,24 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
         body { background-color: #f8fafc; color: #0f172a; padding-bottom: 50px; }
         header { background-color: #1e293b; color: white; padding: 20px; text-align: center; }
-        .admin-box { max-width: 600px; margin: 20px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .admin-box h3 { margin-bottom: 15px; color: #1e293b; }
-        .admin-box input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 8px; }
+        
+        .login-container { max-width: 400px; margin: 50px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; }
+        .login-container input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 16px; text-align: center; }
+        .login-container button { width: 100%; padding: 12px; background: #1e293b; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        
+        .admin-panel { max-width: 800px; margin: 20px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: none; }
+        .admin-panel input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 8px; }
+        
         .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         .product-card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; padding: 15px; }
         .product-card img { width: 100%; height: 280px; object-fit: cover; border-radius: 8px; }
         .product-card h3 { font-size: 18px; margin: 15px 0 10px; }
         .price { font-size: 16px; color: #16a34a; font-weight: bold; margin-bottom: 15px; }
-        button { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; width: 100%; font-weight: bold; }
-        button:hover { background-color: #1d4ed8; }
-        .btn-green { background-color: #16a34a; margin-top: 5px; }
-        .btn-green:hover { background-color: #15803d; }
+        
+        button.buy-btn { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; width: 100%; font-weight: bold; }
+        button.buy-btn:hover { background-color: #1d4ed8; }
+        .btn-green { background-color: #16a34a; color: white; border: none; padding: 10px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; }
+        .logout-btn { background-color: #dc2626; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-bottom: 15px; float: left; }
     </style>
 </head>
 <body>
@@ -29,18 +35,55 @@
         <p>باشترین و جوانترین تیشێرت</p>
     </header>
 
-    <div class="admin-box">
-        <h3>زیادکرنا تیشێرتەکا نوو</h3>
+    <!-- شاشەیا چوونە ژوورێ (Login) -->
+    <div class="login-container" id="loginBox">
+        <h3 style="margin-bottom: 20px; color: #1e293b;">چوونە ژوورا ڕێڤەبەری</h3>
+        <input type="password" id="passInput" placeholder="پاسوورد بنڤیسە (بۆ نموونە: 1234)">
+        <button onclick="login()">چوونەژوور</button>
+    </div>
+
+    <!-- پەنێلا ڕێڤەبەری و زێدەکرنا بەرهەمان (تنێ پشتی پاسووردەی دیار دبیت) -->
+    <div class="admin-panel" id="adminPanel">
+        <button class="logout-btn" onclick="logout()">چوونە دەرڤە (Logout)</button>
+        <h3 style="margin-bottom: 15px; color: #1e293b; clear: both;">زیادکرنا تیشێرتەکا نوو</h3>
         <input type="text" id="pName" placeholder="ناڤێ تیشێرتی (بۆ نموونە: OC Navy)">
         <input type="text" id="pPrice" placeholder="نرخ (بۆ نموونە: 15000)">
         <input type="text" id="pImage" placeholder="لینکا وێنەی (Image URL)">
         <button class="btn-green" onclick="addProduct()">زیادکرن ل سەر سایت</button>
     </div>
 
+    <!-- کەتەلۆگێ بەرهەمان -->
     <div class="container" id="products-container"></div>
 
     <script>
         const whatsappNumber = '964750000000';
+        const correctPassword = '1234'; // لێرە تو پاسووردێ خۆ دگۆڕی ئەگەر بڤێی
+
+        function login() {
+            let val = document.getElementById('passInput').value;
+            if(val === correctPassword) {
+                localStorage.setItem('rz_logged', 'true');
+                checkAuth();
+            } else {
+                alert('پاسوورد خەلەتە!');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('rz_logged');
+            checkAuth();
+        }
+
+        function checkAuth() {
+            let isLogged = localStorage.getItem('rz_logged');
+            if(isLogged === 'true') {
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+            } else {
+                document.getElementById('loginBox').style.display = 'block';
+                document.getElementById('adminPanel').style.display = 'none';
+            }
+        }
 
         function loadProducts() {
             let products = JSON.parse(localStorage.getItem('rz_products')) || [
@@ -56,7 +99,7 @@
                         <img src="${p.image}" alt="${p.name}">
                         <h3>${p.name}</h3>
                         <p class="price">${p.price} دينار</p>
-                        <button onclick="buy('${p.name}', '${p.price}')">زيادکردن بۆ سەبەتە</button>
+                        <button class="buy-btn" onclick="buy('${p.name}', '${p.price}')">زيادکردن بۆ سەبەتە</button>
                     </div>
                 `;
             });
@@ -87,12 +130,13 @@
             alert('تیشێرت ب سەرکەفتن هاتە زیادکرن!');
         }
 
-        loadProducts();
-
         function buy(name, price) {
             let msg = `سڵاو، من دڤێت ڤی بەرهەمی بکڕم: ${name} - نرخ: ${price} دينار`;
             window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
         }
+
+        checkAuth();
+        loadProducts();
     </script>
 </body>
 </html>
