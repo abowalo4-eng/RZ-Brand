@@ -3,176 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RZ Brand - دوکانا جلوبەرگان</title>
+    <title>RZ Brand | Luxury Store</title>
+    <!-- Google Fonts & FontAwesome for Luxury Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Noto+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
-        body { background-color: #f8fafc; color: #0f172a; padding-bottom: 50px; }
-        header { background-color: #1e293b; color: white; padding: 20px; text-align: center; position: relative; }
-        
-        .sub-categories { display: flex; justify-content: center; gap: 8px; background: #e2e8f0; padding: 12px; overflow-x: auto; }
-        .sub-categories button { background: white; color: #334155; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: bold; }
-        .sub-categories button.active, .sub-categories button:hover { background: #1e293b; color: white; }
+        :root {
+            --bg-color: #0b0b0b;
+            --card-bg: #161616;
+            --accent-gold: #dfb15b;
+            --text-main: #f3f3f3;
+            --text-muted: #999999;
+            --border-color: #262626;
+        }
 
-        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .product-card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; padding: 15px; position: relative; }
-        .product-card img { width: 100%; height: 280px; object-fit: cover; border-radius: 8px; }
-        .product-card h3 { font-size: 18px; margin: 15px 0 10px; }
-        .price { font-size: 16px; color: #16a34a; font-weight: bold; margin-bottom: 15px; }
-        .badge { position: absolute; top: 25px; right: 25px; background: #2563eb; color: white; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; }
-        
-        button.buy-btn { background-color: #16a34a; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; width: 100%; font-weight: bold; }
-        button.buy-btn:hover { background-color: #15803d; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans Arabic', 'Unbounded', sans-serif;
+        }
 
-        .hidden-admin-trigger { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.1); border: none; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; z-index: 10; }
-        
-        .admin-panel { max-width: 600px; margin: 20px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: none; }
-        .admin-panel input, .admin-panel select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 8px; }
-        .btn-green { background-color: #16a34a; color: white; border: none; padding: 10px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; }
-        .logout-btn { background-color: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; margin-bottom: 15px; float: left; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* Header Style */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(180deg, #141414 0%, var(--bg-color) 100%);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        header h1 span {
+            color: var(--accent-gold);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        /* Categories Filter */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            flex-wrap: wrap;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cat-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 10px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: var(--accent-gold);
+            color: #000;
+            border-color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        /* Products Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            background-color: #222;
+        }
+
+        .product-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .product-price {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-top: auto;
+        }
+
+        /* Buy / WhatsApp Button inside card */
+        .buy-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 12px;
+            transition: background 0.3s ease;
+        }
+
+        .buy-btn:hover {
+            background: #20ba5a;
+        }
+
+        /* Floating WhatsApp Icon */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #25d366;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 100;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        @media(max-width: 768px) {
+            header h1 { font-size: 1.7rem; }
+            .product-img { height: 280px; }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <button class="hidden-admin-trigger" onclick="requestAdminAccess()">⚙️ ڕێڤەبەر</button>
-        <h1>RZ Brand</h1>
-        <p>باشترین و جوانترین جلوبەرگ</p>
+        <h1>RZ <span>BRAND</span></h1>
+        <p>کەتالوگێ فەرمی یێ جلوبەرگ و پێلاڤێن ڕاقی</p>
     </header>
 
-    <div class="sub-categories">
-        <button onclick="setSubCat('all')" id="sub-all" class="active">هەمی بەرهەم</button>
-        <button onclick="setSubCat('tshirt')" id="sub-tshirt">تیشێرت</button>
-        <button onclick="setSubCat('shirt')" id="sub-shirt">قەمیس</button>
-        <button onclick="setSubCat('jeans')" id="sub-jeans">کابۆ</button>
-        <button onclick="setSubCat('shoes')" id="sub-shoes">پێلاف</button>
+    <!-- Categories Filter Buttons -->
+    <div class="categories">
+        <button class="cat-btn active" onclick="filterProduct('all')">هەمی</button>
+        <button class="cat-btn" onclick="filterProduct('shirt')">تیشێرت و جل</button>
+        <button class="cat-btn" onclick="filterProduct('shoes')">پێلاڤ</button>
+        <button class="cat-btn" onclick="filterProduct('jacket')">چاکەت و پاڵتو</button>
     </div>
 
-    <!-- پەنێلا ڕێڤەبەری -->
-    <div class="admin-panel" id="adminPanel">
-        <button class="logout-btn" onclick="logout()">چوونە دەرڤە</button>
-        <h3 style="margin-bottom: 15px; color: #1e293b; clear: both;">زیادکرنا بەرهەمەکا نوو</h3>
-        <input type="text" id="pName" placeholder="ناڤێ بەرهەمی (بۆ نموونە: تیشێرتی OC Navy)">
-        <input type="text" id="pPrice" placeholder="نرخ (بۆ نموونە: 15000)">
-        <input type="text" id="pImage" placeholder="لینکا وێنەی (رابط مباشر)">
-        
-        <label style="font-size: 14px; font-weight: bold; color: #475569;">جۆرێ بەرهەمی:</label>
-        <select id="pSubCat">
-            <option value="tshirt">تیشێرت</option>
-            <option value="shirt">قەمیس</option>
-            <option value="jeans">کابۆ</option>
-            <option value="shoes">پێلاف</option>
-        </select>
+    <!-- Products Section -->
+    <div class="container" id="product-grid">
+        <!-- Product 1 -->
+        <div class="product-card" data-category="shirt">
+            <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80" alt="تیشێرت" class="product-img">
+            <div class="product-info">
+                <span class="product-category">تیشێرت</span>
+                <h3 class="product-title">تیشێرتا مۆدێرنا ڕەش</h3>
+                <div class="product-price">25,000 دینار</div>
+                <a href="https://wa.me/YOUR_WHATSAPP_NUMBER?text=سڵاو، من حەز ڤێ کەلوپەلی دکەم: تیشێرتا مۆدێرنا ڕەش" target="_blank" class="buy-btn">
+                    <i class="fab fa-whatsapp"></i> داخوازکرن ب واتسئاپ
+                </a>
+            </div>
+        </div>
 
-        <button class="btn-green" onclick="addProduct()">زیادکرن ل سەر سایت</button>
+        <!-- Product 2 -->
+        <div class="product-card" data-category="shoes">
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80" alt="پێلاڤ" class="product-img">
+            <div class="product-info">
+                <span class="product-category">پێلاڤ</span>
+                <h3 class="product-title">پێلاڤا وەرزشی یا لۆکس</h3>
+                <div class="product-price">45,000 دینار</div>
+                <a href="https://wa.me/YOUR_WHATSAPP_NUMBER?text=سڵاو، من حەز ڤێ کەلوپەلی دکەم: پێلاڤا وەرزشی یا لۆکس" target="_blank" class="buy-btn">
+                    <i class="fab fa-whatsapp"></i> داخوازکرن ب واتسئاپ
+                </a>
+            </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card" data-category="jacket">
+            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80" alt="چاکەت" class="product-img">
+            <div class="product-info">
+                <span class="product-category">چاکەت</span>
+                <h3 class="product-title">چاکەتێ چەرمێ ڕەش</h3>
+                <div class="product-price">65,000 دینار</div>
+                <a href="https://wa.me/YOUR_WHATSAPP_NUMBER?text=سڵاو، من حەز ڤێ کەلوپەلی دکەم: چاکەتێ چەرمێ ڕەش" target="_blank" class="buy-btn">
+                    <i class="fab fa-whatsapp"></i> داخوازکرن ب واتسئاپ
+                </a>
+            </div>
+        </div>
     </div>
 
-    <div class="container" id="products-container">
-        <p style="text-align:center; grid-column: 1/-1; color: #64748b; padding: 30px;">یا داتی بار دکەت...</p>
-    </div>
+    <!-- Floating WhatsApp Button (Replace YOUR_WHATSAPP_NUMBER with your actual number) -->
+    <a href="https://wa.me/YOUR_WHATSAPP_NUMBER" target="_blank" class="whatsapp-float">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <script>
-        const whatsappNumber = '9647507070313';
-        const adminPassword = 'zaxorz@1010';
-        
-        let currentSub = 'all';
-        
-        // لستەکا بنەڕەتی یا بەرهەمان (تو دکاری ل ڤێرە هەمەرەنگ بکەی یان بێخەیە ناڤ کۆدی)
-        let defaultProducts = [
-            {name: "تيشيرتی لۆنگ-سليفی (OC Navy)", price: "15,000", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600", sub: "tshirt"}
-        ];
+        // Simple Category Filter Script
+        function filterProduct(category) {
+            const buttons = document.querySelectorAll('.cat-btn');
+            buttons.buttonList?.remove?.('active'); // safety
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
 
-        // بارکرنا بەرهەمان ژ پاشەکەوتا گلۆبال یا مۆبایل و براوەری ب شێوازەکێ فرەوان
-        let allProducts = JSON.parse(localStorage.getItem('rz_global_products_v2')) || defaultProducts;
-
-        function requestAdminAccess() {
-            let pass = prompt("پاسووردێ ڕێڤەبەری بنڤیسە:");
-            if(pass === adminPassword) {
-                localStorage.setItem('rz_logged', 'true');
-                checkAuth();
-                alert('ب خێر هاتێ، ڕێڤەبەر!');
-            } else if(pass !== null) {
-                alert('پاسوورد خەلەتە!');
-            }
-        }
-
-        function logout() {
-            localStorage.removeItem('rz_logged');
-            checkAuth();
-        }
-
-        function checkAuth() {
-            let isLogged = localStorage.getItem('rz_logged');
-            if(isLogged === 'true') {
-                document.getElementById('adminPanel').style.display = 'block';
-            } else {
-                document.getElementById('adminPanel').style.display = 'none';
-            }
-        }
-
-        function setSubCat(sub) {
-            currentSub = sub;
-            document.querySelectorAll('.sub-categories button').forEach(b => b.classList.remove('active'));
-            document.getElementById('sub-' + sub).classList.add('active');
-            renderProducts();
-        }
-
-        function renderProducts() {
-            let container = document.getElementById('products-container');
-            container.innerHTML = '';
-
-            let filtered = currentSub === 'all' ? allProducts : allProducts.filter(p => p.sub === currentSub);
-
-            if(filtered.length === 0) {
-                container.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: #64748b; padding: 30px; font-size: 16px;">چ بەرهەم د ڤی بەشی دا نینە.</p>';
-                return;
-            }
-
-            filtered.forEach(p => {
-                let subName = p.sub === 'tshirt' ? 'تیشێرت' : (p.sub === 'shirt' ? 'قەمیس' : (p.sub === 'jeans' ? 'کابۆ' : 'پێلاف'));
-                container.innerHTML += `
-                    <div class="product-card">
-                        <span class="badge">${subName}</span>
-                        <img src="${p.image}" alt="${p.name}">
-                        <h3>${p.name}</h3>
-                        <p class="price">${p.price} دينار</p>
-                        <button class="buy-btn" onclick="buy('${p.name}', '${p.price}')">داخوازکرن</button>
-                    </div>
-                `;
+            const cards = document.querySelectorAll('.product-card');
+            cards.cardList?.remove?.('active');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
             });
         }
-
-        function addProduct() {
-            let name = document.getElementById('pName').value;
-            let price = document.getElementById('pPrice').value;
-            let image = document.getElementById('pImage').value;
-            let sub = document.getElementById('pSubCat').value;
-
-            if(!name || !price || !image) {
-                alert('هەمی خانەیان تژی بکە!');
-                return;
-            }
-
-            let newProduct = {name, price, image, sub};
-            allProducts.unshift(newProduct);
-            
-            // پاشەکەوتکرنا بێ کێماسی
-            localStorage.setItem('rz_global_products_v2', JSON.stringify(allProducts));
-
-            document.getElementById('pName').value = '';
-            document.getElementById('pPrice').value = '';
-            document.getElementById('pImage').value = '';
-
-            renderProducts();
-            alert('بەرهەم ب سەرکەفتن هاتە زیادکرن!');
-        }
-
-        function buy(name, price) {
-            let msg = `سڵاو، من دڤێت ڤی بەرهەمی داخوازم بکەم:\nبەرهەم: ${name}\nنرخ: ${price} دينار`;
-            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
-        }
-
-        checkAuth();
-        renderProducts();
     </script>
 </body>
 </html>
