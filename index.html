@@ -436,7 +436,7 @@
     </a>
 
     <script>
-        // Free Global Cloud Storage using JSONBin.io
+        // Direct Cloud JSONBin Configuration for Real-time Global Synchronization
         const BIN_ID = "65e64805dc74654018b14a2f"; 
         const API_KEY = "$2a$10$7XvWkK555555555555555e..."; 
 
@@ -495,21 +495,21 @@
             }
         }
 
+        // Fetch products globally from JSONbin API (fallback to local storage for offline reliability)
         async function loadProducts() {
             const grid = document.getElementById('product-grid');
-            grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0;">جارەکێ بوەستە، بەرهەم باردبن...</p>';
+            grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0;">بەرهەم باردبن...</p>';
 
             try {
-                // Fetching products from global cloud storage & fallback to LocalStorage
-                let saved = localStorage.getItem('rz_global_products');
-                if (saved) {
-                    allProducts = JSON.parse(saved);
-                } else {
-                    allProducts = [];
-                }
+                let response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': API_KEY }
+                });
+                let data = await response.json();
+                allProducts = data.record && data.record.products ? data.record.products : [];
                 renderProducts(allProducts);
-            } catch (e) {
-                let saved = localStorage.getItem('rz_global_products');
+            } catch (error) {
+                // Fallback to local storage if offline
+                let saved = localStorage.getItem('rz_fallback_products');
                 allProducts = saved ? JSON.parse(saved) : [];
                 renderProducts(allProducts);
             }
@@ -527,16 +527,32 @@
             }
 
             allProducts.push({ category, title, price, img });
-            
-            // Save globally to local storage and sync across devices instantly
-            localStorage.setItem('rz_global_products', JSON.stringify(allProducts));
 
-            document.getElementById('pTitle').value = '';
-            document.getElementById('pPrice').value = '';
-            document.getElementById('pImg').value = '';
-            closeAdminPanel();
-            renderProducts(allProducts);
-            alert("بەرهەم ب سەرکەفتیانە هاتە زێدەکرن و بۆ هەمیان هاتە بەلاڤکرن!");
+            // Update globally on JSONBin Cloud API
+            try {
+                let response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': API_KEY
+                    },
+                    body: JSON.stringify({ products: allProducts })
+                });
+
+                if(response.ok) {
+                    localStorage.setItem('rz_fallback_products', JSON.stringify(allProducts));
+                    document.getElementById('pTitle').value = '';
+                    document.getElementById('pPrice').value = '';
+                    document.getElementById('pImg').value = '';
+                    closeAdminPanel();
+                    renderProducts(allProducts);
+                    alert("بەرهەم ب سەرکەفتیانە هاتە زێدەکرن و ل دەف هەمی کەسان ل جیهانێ دیار بوو!");
+                } else {
+                    alert("خەلەیەک چێبوو د بەلاڤکرنێ دا!");
+                }
+            } catch (e) {
+                alert("ئاریشا تۆڕا ئینتەرنێتێ هەیە!");
+            }
         }
 
         function renderProducts(products) {
