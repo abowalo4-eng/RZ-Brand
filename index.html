@@ -176,7 +176,6 @@
             display: block;
         }
 
-        /* Categories Bar Compact */
         .categories-container {
             max-width: 1200px;
             margin: 15px auto 20px auto;
@@ -216,7 +215,6 @@
             font-weight: 700;
         }
 
-        /* Compact Grid Layout for products */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -296,7 +294,6 @@
             background: #20ba5a;
         }
 
-        /* Admin Modal */
         .admin-modal {
             position: fixed;
             top: 50%;
@@ -497,13 +494,26 @@
             document.getElementById('adminPasswordInput').value = '';
         }
 
-        function checkAdminPassword() {
-            const pass = document.getElementById('adminPasswordInput').value;
-            if (pass === "zaxorz@1010") {
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('addProductSection').style.display = 'block';
-            } else {
-                alert("پاسوۆرد خەلەتە!");
+        async function checkAdminPassword() {
+            const passwordInput = document.getElementById('adminPasswordInput').value;
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: passwordInput })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('addProductSection').style.display = 'block';
+                } else {
+                    alert("پاسوۆرد خەلەتە!");
+                }
+            } catch (error) {
+                alert("خەلەتەک چێبوو!");
             }
         }
 
