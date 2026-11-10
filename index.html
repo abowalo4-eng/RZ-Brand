@@ -1,616 +1,107 @@
 <!DOCTYPE html>
-<html lang="ku" dir="rtl" class="dark">
+<html lang="ku" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RZ Brand | Catalog</title>
-    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Noto+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>RZ Brand - جلبەرگێن کوردی</title>
     
+    <!-- Google Tag Manager / Analytics -->
+    <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-NC5LGLPJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GTM-NC5LGLPJ');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #0c0c0e;
-            --card-bg: #141417;
-            --text-main: #f5f5f7;
-            --text-muted: #8e8e93;
-            --border-color: #222226;
-            --accent: #d4af37;
-            --header-bg: rgba(12, 12, 14, 0.95);
-        }
-
-        html.light {
-            --bg-color: #f2f2f7;
-            --card-bg: #ffffff;
-            --text-main: #1c1c1e;
-            --text-muted: #6e6e73;
-            --border-color: #e5e5ea;
-            --accent: #b8860b;
-            --header-bg: rgba(242, 242, 247, 0.95);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Noto Sans Arabic', 'Unbounded', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            padding-bottom: 40px;
-        }
-
-        header {
-            position: sticky;
-            top: 0;
-            background: var(--header-bg);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 20px;
-            z-index: 1000;
-        }
-
-        .header-left, .header-right {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .menu-icon {
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--text-main);
-        }
-
-        .logo {
-            font-family: 'Unbounded', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--text-main);
-            text-decoration: none;
-        }
-
-        .logo span {
-            color: var(--accent);
-        }
-
-        .icon-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .side-menu {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 260px;
-            height: 100%;
-            background: var(--card-bg);
-            border-left: 1px solid var(--border-color);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            padding: 25px 20px;
-            transition: right 0.3s cubic-bezier(0.77, 0, 0.175, 1);
-        }
-
-        .side-menu.open {
-            right: 0;
-        }
-
-        .side-menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .close-menu {
-            font-size: 1.3rem;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-
-        .side-links {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .side-links a {
-            text-decoration: none;
-            color: var(--text-main);
-            font-size: 1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        .side-links a:hover {
-            color: var(--accent);
-        }
-
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(3px);
-            z-index: 1500;
-            display: none;
-        }
-
-        .menu-overlay.active {
-            display: block;
-        }
-
-        /* Categories Bar Compact */
-        .categories-container {
-            max-width: 1200px;
-            margin: 15px auto 20px auto;
-            padding: 0 15px;
-        }
-
-        .categories {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-            scrollbar-width: none;
-        }
-
-        .categories::-webkit-scrollbar {
-            display: none;
-        }
-
-        .cat-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.82rem;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .cat-btn.active {
-            background: var(--accent);
-            color: #000;
-            border-color: var(--accent);
-            font-weight: 700;
-        }
-
-        /* Compact Grid Layout for products */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
-        }
-
-        .product-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: border-color 0.2s ease;
-        }
-
-        .product-card:hover {
-            border-color: var(--accent);
-        }
-
-        .product-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            background: #1c1c1f;
-        }
-
-        .product-info {
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            flex-grow: 1;
-        }
-
-        .product-category {
-            font-size: 0.65rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            font-weight: 600;
-        }
-
-        .product-title {
-            font-size: 0.88rem;
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        .product-price {
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-top: 4px;
-        }
-
-        .buy-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            background: #25d366;
-            color: #fff;
-            text-decoration: none;
-            padding: 8px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.8rem;
-            margin-top: 8px;
-            cursor: pointer;
-            border: none;
-        }
-
-        .buy-btn:hover {
-            background: #20ba5a;
-        }
-
-        /* Admin Modal */
-        .admin-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 25px;
-            border-radius: 14px;
-            z-index: 3000;
-            width: 90%;
-            max-width: 400px;
-            display: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .admin-modal.active {
-            display: block;
-        }
-
-        .admin-modal h3 {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            color: var(--accent);
-        }
-
-        .admin-modal input, .admin-modal select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 12px;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            border-radius: 8px;
-            font-size: 0.9rem;
-        }
-
-        .admin-modal button.submit-admin {
-            background: var(--accent);
-            color: #000;
-            border: none;
-            padding: 10px;
-            width: 100%;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .admin-modal button.close-admin {
-            background: transparent;
-            color: var(--text-muted);
-            border: none;
-            margin-top: 10px;
-            width: 100%;
-            cursor: pointer;
-        }
-
-        .whatsapp-float {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: #25d366;
-            color: #fff;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
-            z-index: 100;
-            text-decoration: none;
-        }
+        body { font-family: 'Vazirmatn', sans-serif; }
     </style>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
 
-    <header>
-        <div class="header-left">
-            <i class="fas fa-bars menu-icon" onclick="toggleMenu()"></i>
-            <a href="#" class="logo">RZ <span>BRAND</span></a>
-        </div>
-        <div class="header-right">
-            <button class="icon-btn" onclick="toggleTheme()" id="theme-btn">
-                <i class="fas fa-moon" id="theme-icon"></i>
-            </button>
+    <!-- Header & Navigation -->
+    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-wider text-indigo-600 dark:text-indigo-400">RZ BRAND</div>
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <button onclick="toggleDarkMode()" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-sm">🌓</button>
+                <button onclick="openAdminModal()" class="text-xs bg-gray-800 text-white dark:bg-gray-200 dark:text-gray-900 px-3 py-1.5 rounded-lg font-medium">پەنێلا ڕێڤەبەری</button>
+            </div>
         </div>
     </header>
 
-    <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
-    <div class="side-menu" id="sideMenu">
-        <div class="side-menu-header">
-            <a href="#" class="logo">RZ <span>BRAND</span></a>
-            <i class="fas fa-times close-menu" onclick="toggleMenu()"></i>
+    <!-- Categories Filter -->
+    <nav class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-3 shadow-sm">
+        <div class="container mx-auto px-4 flex overflow-x-auto space-x-3 space-x-reverse text-sm">
+            <button onclick="filterCategory('all')" class="category-btn active px-4 py-2 rounded-full bg-indigo-600 text-white whitespace-nowrap">هەمی</button>
+            <button onclick="filterCategory('کابو')" class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 whitespace-nowrap">کابو</button>
+            <button onclick="filterCategory('پێلاڤ')" class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 whitespace-nowrap">پێلاڤ</button>
+            <button onclick="filterCategory('تیشێرت')" class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 whitespace-nowrap">تیشێرت</button>
+            <button onclick="filterCategory('هوودی')" class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 whitespace-nowrap">هوودی</button>
+            <button onclick="filterCategory('سەروبەن')" class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 whitespace-nowrap">سەروبەن</button>
+            <button onclick="filterCategory('چاکەت')" class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 whitespace-nowrap">چاکەت</button>
         </div>
-        <ul class="side-links">
-            <li><a href="#" onclick="toggleMenu()"><i class="fas fa-home"></i> سەرەکی</a></li>
-            <li><a href="https://maps.app.goo.gl/VbkZZed6Hf7g3emeA?g_st=ic" target="_blank"><i class="fas fa-map-marker-alt"></i> جهێ دکانی</a></li>
-            <li><a onclick="openAdminPanel()"><i class="fas fa-lock"></i> ڕێڤەبەر</a></li>
-            <li><a href="https://wa.me/9647507070313?text=سڵاو، پەیوەندی ب مە ڤە" target="_blank"><i class="fas fa-phone-alt"></i> پەیوەندی کردن</a></li>
-        </ul>
-    </div>
+    </nav>
 
-    <!-- Admin Panel Modal -->
-    <div class="admin-modal" id="adminModal">
-        <h3>بەشێ ڕێڤەبەر (زێدەکرنا بەرهەمان)</h3>
-        <div id="loginSection">
-            <p style="font-size: 0.85rem; margin-bottom: 8px; color: var(--text-muted);">پاسوۆردی بنڤیسە:</p>
-            <input type="password" id="adminPasswordInput" placeholder="پاسوۆرد">
-            <button class="submit-admin" onclick="checkAdminPassword()">چوونا ژوور</button>
+    <!-- Main Products Grid -->
+    <main class="container mx-auto px-4 py-8">
+        <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <!-- Products will be loaded dynamically here -->
         </div>
-        <div id="addProductSection" style="display: none;">
-            <input type="text" id="pTitle" placeholder="ناڤێ کەلوپەلی (بۆ نموونە: پانتۆلێ کابو)">
-            <input type="text" id="pPrice" placeholder="نرخ (بۆ نموونە: 35,000 دینار)">
-            <input type="text" id="pImg" placeholder="لێنکا وێنەی (Image URL)">
-            <select id="pCategory">
-                <option value="kabu">کابو</option>
-                <option value="shoes">پێلاڤ</option>
-                <option value="shirt">تیشێرت</option>
-                <option value="hoodie">هوودی</option>
-                <option value="soruban">سەروبەن</option>
-                <option value="jacket">چاکەت</option>
-            </select>
-            <button class="submit-admin" onclick="addNewProduct()">زێدەکرنا بەرهەمی</button>
-        </div>
-        <button class="close-admin" onclick="closeAdminPanel()">داخستن</button>
-    </div>
+    </main>
 
-    <!-- Filter Categories -->
-    <div class="categories-container">
-        <div class="categories">
-            <button class="cat-btn active" onclick="filterProduct('all', event)"><i class="fas fa-border-all"></i> هەمی</button>
-            <button class="cat-btn" onclick="filterProduct('kabu', event)"><i class="fas fa-vest"></i> کابو</button>
-            <button class="cat-btn" onclick="filterProduct('shoes', event)"><i class="fas fa-shoe-prints"></i> پێلاڤ</button>
-            <button class="cat-btn" onclick="filterProduct('shirt', event)"><i class="fas fa-tshirt"></i> تیشێرت</button>
-            <button class="cat-btn" onclick="filterProduct('hoodie', event)"><i class="fas fa-user-ninja"></i> هوودی</button>
-            <button class="cat-btn" onclick="filterProduct('soruban', event)"><i class="fas fa-hat-cowboy"></i> سەروبەن</button>
-            <button class="cat-btn" onclick="filterProduct('jacket', event)"><i class="fas fa-user-tie"></i> چاکەت</button>
-        </div>
-    </div>
-
-    <!-- Compact Grid -->
-    <div class="container" id="product-grid">
-        <!-- Products will load dynamically here -->
-    </div>
-
-    <a href="https://wa.me/9647507070313?text=سڵاو، من دخوازم پەیوەندی ب مە ڤە بکەم" target="_blank" class="whatsapp-float">
-        <i class="fab fa-whatsapp"></i>
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/9647507070313" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white p-3.5 rounded-full shadow-lg hover:bg-green-600 z-50 flex items-center justify-center">
+        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
     </a>
 
+    <!-- Admin Login / Panel Modal -->
+    <div id="admin-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-md shadow-xl">
+            <h3 class="text-lg font-bold mb-4">پەنێلا ڕێڤەبەری</h3>
+            <div id="login-form">
+                <input type="password" id="admin-pass" placeholder="پاسوۆرد بنڤیسە..." class="w-full border dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-2 rounded-lg mb-4 text-sm">
+                <button onclick="checkAdminLogin()" class="w-full bg-indigo-600 text-white py-2 rounded-lg font-medium text-sm">چوونە ژوور</button>
+            </div>
+            <div id="admin-controls" class="hidden">
+                <p class="text-green-500 mb-4 text-sm">ب سەرکەفتیانە چوویا ژوور!</p>
+                <button onclick="closeAdminModal()" class="w-full bg-gray-300 dark:bg-gray-700 py-2 rounded-lg text-sm">داخستن</option>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Bin ID یا تە:
-        const BIN_ID = "6af27259ac6210605a7b85cd"; 
-        // Access Key یا تە:
-        const API_KEY = "$2a$10$DU7A/Oq81NPGROytM7gdN.I6RDfGsq3.nIjEBNAJjJeDRy7RjuCSm"; 
+        // JSONBin Cloud Database Config
+        const BIN_ID = "6af27259ac6210605a7b85cd";
+        const ACCESS_KEY = "$2a$10$DU7A/Oq81NPGROytM7gdN.I6RDfGsq3.nIjEBNAJjJeDRy7RjuCSm";
 
-        let currentFilter = 'all';
-        let allProducts = [];
-
-        document.addEventListener("DOMContentLoaded", () => {
-            loadProducts();
-        });
-
-        function toggleMenu() {
-            const sideMenu = document.getElementById('sideMenu');
-            const menuOverlay = document.getElementById('menuOverlay');
-            sideMenu.classList.toggle('open');
-            menuOverlay.classList.toggle('active');
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
         }
 
-        function toggleTheme() {
-            const html = document.documentElement;
-            const themeIcon = document.getElementById('theme-icon');
-            
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                html.classList.add('light');
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
+        function openAdminModal() {
+            document.getElementById('admin-modal').classList.remove('hidden');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-modal').classList.add('hidden');
+        }
+
+        function checkAdminLogin() {
+            const pass = document.getElementById('admin-pass').value;
+            if(pass === 'zaxorz@1010') {
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('admin-controls').classList.remove('hidden');
             } else {
-                html.classList.remove('light');
-                html.classList.add('dark');
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
+                alert('پاسوۆرد خەلەتە!');
             }
         }
 
-        function openAdminPanel() {
-            toggleMenu();
-            document.getElementById('adminModal').classList.add('active');
-            document.getElementById('menuOverlay').classList.add('active');
-        }
-
-        function closeAdminPanel() {
-            document.getElementById('adminModal').classList.remove('active');
-            document.getElementById('menuOverlay').classList.remove('active');
-            document.getElementById('loginSection').style.display = 'block';
-            document.getElementById('addProductSection').style.display = 'none';
-            document.getElementById('adminPasswordInput').value = '';
-        }
-
-        function checkAdminPassword() {
-            const pass = document.getElementById('adminPasswordInput').value;
-            if (pass === "zaxorz@1010") {
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('addProductSection').style.display = 'block';
-            } else {
-                alert("پاسوۆرد خەلەتە!");
-            }
-        }
-
-        async function loadProducts() {
-            const grid = document.getElementById('product-grid');
-            grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0;">بەرهەم باردبن...</p>';
-
-            try {
-                let response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-                    headers: { 'X-Access-Key': API_KEY }
-                });
-                let data = await response.json();
-                allProducts = data.record && data.record.products ? data.record.products : [];
-                renderProducts(allProducts);
-            } catch (error) {
-                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0;">ئاریشا بارکرنا بەرهەمان هەبوو.</p>';
-            }
-        }
-
-        async function addNewProduct() {
-            let title = document.getElementById('pTitle').value;
-            let price = document.getElementById('pPrice').value;
-            let img = document.getElementById('pImg').value;
-            let category = document.getElementById('pCategory').value;
-
-            if(!title || !price || !img) {
-                alert("تكایە هەمی جهان تژی بکە!");
-                return;
-            }
-
-            allProducts.push({ category, title, price, img });
-
-            try {
-                let response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Access-Key': API_KEY
-                    },
-                    body: JSON.stringify({ products: allProducts })
-                });
-
-                if(response.ok) {
-                    document.getElementById('pTitle').value = '';
-                    document.getElementById('pPrice').value = '';
-                    document.getElementById('pImg').value = '';
-                    closeAdminPanel();
-                    renderProducts(allProducts);
-                    alert("بەرهەم ب سەرکەفتیانە هاتە زێدەکرن و ل دەف هەمی کەسان ل جیهانێ دیار بوو!");
-                } else {
-                    alert("خەلەیەک چێبوو د بەلاڤکرنێ دا!");
-                }
-            } catch (e) {
-                alert("ئاریشا تۆڕا ئینتەرنێتێ هەیە!");
-            }
-        }
-
-        function renderProducts(products) {
-            const grid = document.getElementById('product-grid');
-            grid.innerHTML = '';
-
-            let filtered = products.filter(p => currentFilter === 'all' || p.category === currentFilter);
-
-            if (filtered.length === 0) {
-                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0;">هیچ بەرهەمەک ل ڤی پۆلی نینە.</p>';
-                return;
-            }
-
-            filtered.forEach(p => {
-                let card = document.createElement('div');
-                card.className = 'product-card';
-                card.setAttribute('data-category', p.category);
-
-                let catName = 'کابو';
-                if(p.category === 'shoes') catName = 'پێلاڤ';
-                if(p.category === 'shirt') catName = 'تیشێرت';
-                if(p.category === 'hoodie') catName = 'هوودی';
-                if(p.category === 'soruban') catName = 'سەروبەن';
-                if(p.category === 'jacket') catName = 'چاکەت';
-
-                let itemNoun = "ڤی تشتی";
-                if (p.category === 'kabu') itemNoun = "ڤی کابوی";
-                else if (p.category === 'shoes') itemNoun = "ڤێ پێلاڤێ";
-                else if (p.category === 'shirt') itemNoun = "ڤی تیشێرتی";
-                else if (p.category === 'hoodie') itemNoun = "ڤی هوودیی";
-                else if (p.category === 'soruban') itemNoun = "ڤی سەروبەنی";
-                else if (p.category === 'jacket') itemNoun = "ڤی چاکەتی";
-
-                card.innerHTML = `
-                    <img src="${p.img}" alt="${p.title}" class="product-img">
-                    <div class="product-info">
-                        <span class="product-category">${catName}</span>
-                        <h3 class="product-title">${p.title}</h3>
-                        <div class="product-price">${p.price}</div>
-                        <button class="buy-btn" onclick="orderProduct('${itemNoun}', '${p.title}', '${p.price}')">
-                            <i class="fab fa-whatsapp"></i> داخوازکرن
-                        </button>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function filterProduct(category, event) {
-            currentFilter = category;
-            const buttons = document.querySelectorAll('.cat-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.closest('.cat-btn').classList.add('active');
-            renderProducts(allProducts);
-        }
-
-        function orderProduct(itemNoun, title, price) {
-            const phoneNumber = "9647507070313";
-            const message = `سڵاو، من دڤێت ${itemNoun} داخواز بکەم:\n\n📦 ${title}\n💰 نرخ: ${price}`;
-            const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+        function filterCategory(cat) {
+            // Filter logic here
         }
     </script>
 </body>
