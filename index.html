@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ku" dir="rtl">
+<html lang="ku" dir="rtl" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RZ Brand</title>
+    <title>RZ Brand | Catalog</title>
     
-    <!-- Google Tag Manager - کۆدێ چاودێریێ یێ زێدەکری -->
+    <!-- Google Tag Manager -->
     <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-NC5LGLPJ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -13,11 +13,614 @@
       gtag('js', new Date());
       gtag('config', 'GTM-NC5LGLPJ');
     </script>
-    <!-- کۆتاییا کۆدی -->
+    <!-- کۆتاییا کۆدێ گوگل -->
 
-    <!-- لێرە کۆدێ خۆ یێ بەری دابنە (بێ گۆڕانکاری) -->
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Noto+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0c0c0e;
+            --card-bg: #141417;
+            --text-main: #f5f5f7;
+            --text-muted: #8e8e93;
+            --border-color: #222226;
+            --accent: #d4af37;
+            --header-bg: rgba(12, 12, 14, 0.95);
+        }
+
+        html.light {
+            --bg-color: #f2f2f7;
+            --card-bg: #ffffff;
+            --text-main: #1c1c1e;
+            --text-muted: #6e6e73;
+            --border-color: #e5e5ea;
+            --accent: #b8860b;
+            --header-bg: rgba(242, 242, 247, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans Arabic', 'Unbounded', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            z-index: 1000;
+        }
+
+        .header-left, .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .menu-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+
+        .logo {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .icon-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 260px;
+            height: 100%;
+            background: var(--card-bg);
+            border-left: 1px solid var(--border-color);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            padding: 25px 20px;
+            transition: right 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .side-menu.open {
+            right: 0;
+        }
+
+        .side-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .close-menu {
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .side-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .side-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .side-links a:hover {
+            color: var(--accent);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(3px);
+            z-index: 1500;
+            display: none;
+        }
+
+        .menu-overlay.active {
+            display: block;
+        }
+
+        /* Categories Bar Compact */
+        .categories-container {
+            max-width: 1200px;
+            margin: 15px auto 20px auto;
+            padding: 0 15px;
+        }
+
+        .categories {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cat-btn.active {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Compact Grid Layout for products */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.2s ease;
+        }
+
+        .product-card:hover {
+            border-color: var(--accent);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #1c1c1f;
+        }
+
+        .product-info {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex-grow: 1;
+        }
+
+        .product-category {
+            font-size: 0.65rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+        }
+
+        .product-title {
+            font-size: 0.88rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .product-price {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .buy-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-top: 8px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .buy-btn:hover {
+            background: #20ba5a;
+        }
+
+        /* Admin Modal */
+        .admin-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 14px;
+            z-index: 3000;
+            width: 90%;
+            max-width: 400px;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .admin-modal.active {
+            display: block;
+        }
+
+        .admin-modal h3 {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+
+        .admin-modal input, .admin-modal select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .admin-modal button.submit-admin {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .admin-modal button.close-admin {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            margin-top: 10px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #25d366;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            z-index: 100;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    <!-- هەمی پشکێن سایتێ تە یێن بەری ل ڤێرە نە -->
+
+    <header>
+        <div class="header-left">
+            <i class="fas fa-bars menu-icon" onclick="toggleMenu()"></i>
+            <a href="#" class="logo">RZ <span>BRAND</span></a>
+        </div>
+        <div class="header-right">
+            <button class="icon-btn" onclick="toggleTheme()" id="theme-btn">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <a href="#" class="logo">RZ <span>BRAND</span></a>
+            <i class="fas fa-times close-menu" onclick="toggleMenu()"></i>
+        </div>
+        <ul class="side-links">
+            <li><a href="#" onclick="toggleMenu()"><i class="fas fa-home"></i> سەرەکی</a></li>
+            <li><a href="https://maps.app.goo.gl/VbkZZed6Hf7g3emeA?g_st=ic" target="_blank"><i class="fas fa-map-marker-alt"></i> جهێ دکانی</a></li>
+            <li><a onclick="openAdminPanel()"><i class="fas fa-lock"></i> ڕێڤەبەر</a></li>
+            <li><a href="https://wa.me/9647507070313?text=سڵاو، پەیوەندی ب مە ڤە" target="_blank"><i class="fas fa-phone-alt"></i> پەیوەندی کردن</a></li>
+        </ul>
+    </div>
+
+    <!-- Admin Panel Modal -->
+    <div class="admin-modal" id="adminModal">
+        <h3>بەشێ ڕێڤەبەر (زێدەکرنا بەرهەمان)</h3>
+        <div id="loginSection">
+            <p style="font-size: 0.85rem; margin-bottom: 8px; color: var(--text-muted);">پاسوۆردی بنڤیسە:</p>
+            <input type="password" id="adminPasswordInput" placeholder="پاسوۆرد">
+            <button class="submit-admin" onclick="checkAdminPassword()">چوونا ژوور</button>
+        </div>
+        <div id="addProductSection" style="display: none;">
+            <input type="text" id="pTitle" placeholder="ناڤێ کەلوپەلی (بۆ نموونە: پانتۆلێ کابو)">
+            <input type="text" id="pPrice" placeholder="نرخ (بۆ نموونە: 35,000 دینار)">
+            <input type="text" id="pImg" placeholder="لێنکا وێنەی (Image URL)">
+            <select id="pCategory">
+                <option value="kabu">کابو</option>
+                <option value="shoes">پێلاڤ</option>
+                <option value="shirt">تیشێرت</option>
+                <option value="hoodie">هوودی</option>
+                <option value="soruban">سەروبەن</option>
+                <option value="jacket">چاکەت</option>
+            </select>
+            <button class="submit-admin" onclick="addNewProduct()">زێدەکرنا بەرهەمی</button>
+        </div>
+        <button class="close-admin" onclick="closeAdminPanel()">داخستن</button>
+    </div>
+
+    <!-- Filter Categories -->
+    <div class="categories-container">
+        <div class="categories">
+            <button class="cat-btn active" onclick="filterProduct('all', event)"><i class="fas fa-border-all"></i> هەمی</button>
+            <button class="cat-btn" onclick="filterProduct('kabu', event)"><i class="fas fa-vest"></i> کابو</button>
+            <button class="cat-btn" onclick="filterProduct('shoes', event)"><i class="fas fa-shoe-prints"></i> پێلاڤ</button>
+            <button class="cat-btn" onclick="filterProduct('shirt', event)"><i class="fas fa-tshirt"></i> تیشێرت</button>
+            <button class="cat-btn" onclick="filterProduct('hoodie', event)"><i class="fas fa-user-ninja"></i> هوودی</button>
+            <button class="cat-btn" onclick="filterProduct('soruban', event)"><i class="fas fa-hat-cowboy"></i> سەروبەن</button>
+            <button class="cat-btn" onclick="filterProduct('jacket', event)"><i class="fas fa-user-tie"></i> چاکەت</button>
+        </div>
+    </div>
+
+    <!-- Compact Grid -->
+    <div class="container" id="product-grid">
+        <!-- Products will load dynamically here -->
+    </div>
+
+    <a href="https://wa.me/9647507070313?text=سڵاو، من دخوازم پەیوەندی ب مە ڤە بکەم" target="_blank" class="whatsapp-float">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        const BIN_ID = "6af27259ac6210605a7b85cd"; 
+        const API_KEY = "$2a$10$DU7A/Oq81NPGROytM7gdN.I6RDfGsq3.nIjEBNAJjJeDRy7RjuCSm"; 
+
+        let currentFilter = 'all';
+        let allProducts = [];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadProducts();
+        });
+
+        function toggleMenu() {
+            const sideMenu = document.getElementById('sideMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+            sideMenu.classList.toggle('open');
+            menuOverlay.classList.toggle('active');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        }
+
+        function openAdminPanel() {
+            toggleMenu();
+            document.getElementById('adminModal').classList.add('active');
+            document.getElementById('menuOverlay').classList.add('active');
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('adminModal').classList.remove('active');
+            document.getElementById('menuOverlay').classList.remove('active');
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('addProductSection').style.display = 'none';
+            document.getElementById('adminPasswordInput').value = '';
+        }
+
+        function checkAdminPassword() {
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (pass === "zaxorz@1010") {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('addProductSection').style.display = 'block';
+            } else {
+                alert("پاسوۆرد خەلەتە!");
+            }
+        }
+
+        async function loadProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0;">بەرهەم باردبن...</p>';
+
+            try {
+                let response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    headers: { 'X-Access-Key': API_KEY }
+                });
+                let data = await response.json();
+                allProducts = data.record && data.record.products ? data.record.products : [];
+                renderProducts(allProducts);
+            } catch (error) {
+                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0;">ئاریشا بارکرنا بەرهەمان هەبوو.</p>';
+            }
+        }
+
+        async function addNewProduct() {
+            let title = document.getElementById('pTitle').value;
+            let price = document.getElementById('pPrice').value;
+            let img = document.getElementById('pImg').value;
+            let category = document.getElementById('pCategory').value;
+
+            if(!title || !price || !img) {
+                alert("تكایە هەمی جهان تژی بکە!");
+                return;
+            }
+
+            allProducts.push({ category, title, price, img });
+
+            try {
+                let response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Access-Key': API_KEY
+                    },
+                    body: JSON.stringify({ products: allProducts })
+                });
+
+                if(response.ok) {
+                    document.getElementById('pTitle').value = '';
+                    document.getElementById('pPrice').value = '';
+                    document.getElementById('pImg').value = '';
+                    closeAdminPanel();
+                    renderProducts(allProducts);
+                    alert("بەرهەم ب سەرکەفتیانە هاتە زێدەکرن و ل دەف هەمی کەسان ل جیهانێ دیار بوو!");
+                } else {
+                    alert("خەلەیەک چێبوو د بەلاڤکرنێ دا!");
+                }
+            } catch (e) {
+                alert("ئاریشا تۆڕا ئینتەرنێتێ هەیە!");
+            }
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            let filtered = products.filter(p => currentFilter === 'all' || p.category === currentFilter);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0;">هیچ بەرهەمەک ل ڤی پۆلی نینە.</p>';
+                return;
+            }
+
+            filtered.forEach(p => {
+                let card = document.createElement('div');
+                card.className = 'product-card';
+                card.setAttribute('data-category', p.category);
+
+                let catName = 'کابو';
+                if(p.category === 'shoes') catName = 'پێلاڤ';
+                if(p.category === 'shirt') catName = 'تیشێرت';
+                if(p.category === 'hoodie') catName = 'هوودی';
+                if(p.category === 'soruban') catName = 'سەروبەن';
+                if(p.category === 'jacket') catName = 'چاکەت';
+
+                let itemNoun = "ڤی تشتی";
+                if (p.category === 'kabu') itemNoun = "ڤی کابوی";
+                else if (p.category === 'shoes') itemNoun = "ڤێ پێلاڤێ";
+                else if (p.category === 'shirt') itemNoun = "ڤی تیشێرتی";
+                else if (p.category === 'hoodie') itemNoun = "ڤی هوودیی";
+                else if (p.category === 'soruban') itemNoun = "ڤی سەروبەنی";
+                else if (p.category === 'jacket') itemNoun = "ڤی چاکەتی";
+
+                card.innerHTML = `
+                    <img src="${p.img}" alt="${p.title}" class="product-img">
+                    <div class="product-info">
+                        <span class="product-category">${catName}</span>
+                        <h3 class="product-title">${p.title}</h3>
+                        <div class="product-price">${p.price}</div>
+                        <button class="buy-btn" onclick="orderProduct('${itemNoun}', '${p.title}', '${p.price}')">
+                            <i class="fab fa-whatsapp"></i> داخوازکرن
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterProduct(category, event) {
+            currentFilter = category;
+            const buttons = document.querySelectorAll('.cat-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.cat-btn').classList.add('active');
+            renderProducts(allProducts);
+        }
+
+        function orderProduct(itemNoun, title, price) {
+            const phoneNumber = "9647507070313";
+            const message = `سڵاو، من دڤێت ${itemNoun} داخواز بکەم:\n\n📦 ${title}\n💰 نرخ: ${price}`;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+        }
+    </script>
 </body>
 </html>
