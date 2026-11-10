@@ -3,30 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RZ Brand | Luxury Collection</title>
+    <title>RZ Brand | High-End Collection</title>
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Noto+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Theme Variables */
         :root {
-            --bg-color: #0d0d0d;
-            --card-bg: #161616;
-            --text-main: #f9f9f9;
-            --text-muted: #888888;
-            --border-color: #262626;
-            --accent: #d4af37; /* Gold */
-            --header-bg: rgba(13, 13, 13, 0.85);
+            --bg-color: #0c0c0e;
+            --card-bg: #141417;
+            --text-main: #f5f5f7;
+            --text-muted: #8e8e93;
+            --border-color: #222226;
+            --accent: #d4af37;
+            --header-bg: rgba(12, 12, 14, 0.85);
         }
 
         html.light {
-            --bg-color: #f4f4f6;
+            --bg-color: #f2f2f7;
             --card-bg: #ffffff;
-            --text-main: #111111;
-            --text-muted: #666666;
-            --border-color: #e0e0e0;
+            --text-main: #1c1c1e;
+            --text-muted: #6e6e73;
+            --border-color: #e5e5ea;
             --accent: #b8860b;
-            --header-bg: rgba(244, 244, 246, 0.85);
+            --header-bg: rgba(242, 242, 247, 0.85);
         }
 
         * {
@@ -44,29 +43,27 @@
             padding-bottom: 60px;
         }
 
-        /* Top Header Navigation */
         header {
             position: sticky;
             top: 0;
             background: var(--header-bg);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 25px;
+            padding: 16px 24px;
             z-index: 1000;
         }
 
         .header-left, .header-right {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 16px;
         }
 
-        /* Hamburger Menu Icon */
         .menu-icon {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             cursor: pointer;
             color: var(--text-main);
         }
@@ -75,7 +72,7 @@
             font-family: 'Unbounded', sans-serif;
             font-size: 1.4rem;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             color: var(--text-main);
             text-decoration: none;
         }
@@ -84,7 +81,6 @@
             color: var(--accent);
         }
 
-        /* Theme & Action Icons */
         .icon-btn {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -104,7 +100,6 @@
             color: var(--accent);
         }
 
-        /* Side Menu Drawer */
         .side-menu {
             position: fixed;
             top: 0;
@@ -147,7 +142,7 @@
         .side-links a {
             text-decoration: none;
             color: var(--text-main);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -174,18 +169,17 @@
             display: block;
         }
 
-        /* Hero Banner */
         .hero {
             text-align: center;
-            padding: 50px 20px;
+            padding: 45px 20px 25px 20px;
             max-width: 800px;
             margin: 0 auto;
         }
 
         .hero h2 {
-            font-size: 2rem;
+            font-size: 1.9rem;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .hero p {
@@ -193,23 +187,44 @@
             font-size: 0.95rem;
         }
 
-        /* Categories Filter */
+        /* Categories Bar */
+        .categories-container {
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            padding: 0 20px;
+        }
+
+        .categories-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
         .categories {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            padding: 10px 20px 30px 20px;
-            flex-wrap: wrap;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
         }
 
         .cat-btn {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             color: var(--text-muted);
-            padding: 10px 22px;
+            padding: 10px 24px;
             border-radius: 30px;
             cursor: pointer;
             font-size: 0.9rem;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .cat-btn:hover, .cat-btn.active {
@@ -219,13 +234,12 @@
             font-weight: 600;
         }
 
-        /* Products Grid */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 25px;
         }
 
@@ -246,13 +260,13 @@
 
         .product-img {
             width: 100%;
-            height: 310px;
+            height: 290px;
             object-fit: cover;
-            background: #222;
+            background: #1c1c1f;
         }
 
         .product-info {
-            padding: 20px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -263,17 +277,17 @@
             font-size: 0.75rem;
             color: var(--accent);
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.2px;
             font-weight: 600;
         }
 
         .product-title {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 600;
         }
 
         .product-price {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
             margin-top: auto;
         }
@@ -286,31 +300,30 @@
             background: #25d366;
             color: #fff;
             text-decoration: none;
-            padding: 12px;
+            padding: 11px;
             border-radius: 8px;
             font-weight: 600;
             font-size: 0.9rem;
-            margin-top: 12px;
+            margin-top: 10px;
         }
 
         .buy-btn:hover {
             background: #20ba5a;
         }
 
-        /* Floating WhatsApp Button */
         .whatsapp-float {
             position: fixed;
             bottom: 25px;
             left: 25px;
             background-color: #25d366;
             color: #fff;
-            width: 60px;
-            height: 60px;
+            width: 58px;
+            height: 58px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
+            font-size: 28px;
             box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
             z-index: 100;
             text-decoration: none;
@@ -323,21 +336,18 @@
 </head>
 <body>
 
-    <!-- Header -->
     <header>
         <div class="header-left">
             <i class="fas fa-bars menu-icon" onclick="toggleMenu()"></i>
             <a href="#" class="logo">RZ <span>BRAND</span></a>
         </div>
         <div class="header-right">
-            <!-- Dark/Light Mode Button -->
-            <button class="icon-btn" onclick="toggleTheme()" id="theme-icon-btn" title="گوهۆڕینا نمێ">
+            <button class="icon-btn" onclick="toggleTheme()" id="theme-btn" title="گۆهۆڕینا نمێ">
                 <i class="fas fa-moon" id="theme-icon"></i>
             </button>
         </div>
     </header>
 
-    <!-- Side Menu Drawer (Hamburger Menu) -->
     <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
     <div class="side-menu" id="sideMenu">
         <div class="side-menu-header">
@@ -351,34 +361,27 @@
         </ul>
     </div>
 
-    <!-- Hero Section -->
     <div class="hero">
-        <h2>کەتالوگێ فەرمی یێ جلوبەرگان</h2>
-        <p>نویترین مۆدێل و کەلوپەلێن لۆکس بۆ تە</p>
+        <h2>کەتالوگێ فەرمی یێ جلوبەرگ و پێلاڤان</h2>
+        <p>نویترین مۆدێل و کەلوپەلێن لۆکس ب ستایلەکێ جیهانی</p>
     </div>
 
-    <!-- Categories Filter -->
-    <div class="categories">
-        <button class="cat-btn active" onclick="filterProduct('all', event)">هەمی</button>
-        <button class="cat-btn" onclick="filterProduct('shirt', event)">تیشێرت و جل</button>
-        <button class="cat-btn" onclick="filterProduct('shoes', event)">پێلاڤ</button>
-        <button class="cat-btn" onclick="filterProduct('jacket', event)">چاکەت</button>
+    <!-- Filter Categories -->
+    <div class="categories-container">
+        <div class="categories">
+            <button class="cat-btn active" onclick="filterProduct('all', event)"><i class="fas fa-border-all"></i> هەمی</button>
+            <button class="cat-btn" onclick="filterProduct('shoes', event)"><i class="fas fa-shoe-prints"></i> پێلاڤ</button>
+            <button class="cat-btn" onclick="filterProduct('shirt', event)"><i class="fas fa-tshirt"></i> تیشێرت</button>
+            <button class="cat-btn" onclick="filterProduct('hoodie', event)"><i class="fas fa-user-ninja"></i> هوودی</button>
+            <button class="cat-btn" onclick="filterProduct('jacket', event)"><i class="fas fa-user-tie"></i> چاکەت</button>
+            <button class="cat-btn" onclick="filterProduct('cap', event)"><i class="fas fa-hat-cowboy"></i> کڵاو</button>
+        </div>
     </div>
 
     <!-- Products Grid -->
     <div class="container" id="product-grid">
-        <div class="product-card" data-category="shirt">
-            <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80" alt="تیشێرت" class="product-img">
-            <div class="product-info">
-                <span class="product-category">تیشێرت</span>
-                <h3 class="product-title">تیشێرتا مۆدێرنا ڕەش</h3>
-                <div class="product-price">25,000 دینار</div>
-                <a href="https://wa.me/YOUR_WHATSAPP_NUMBER?text=سڵاو، من حەز ڤێ کەلوپەلی دکەم: تیشێرتا مۆدێرنا ڕەش" target="_blank" class="buy-btn">
-                    <i class="fab fa-whatsapp"></i> داخوازکرن ب واتسئاپ
-                </a>
-            </div>
-        </div>
 
+        <!-- Shoes Items -->
         <div class="product-card" data-category="shoes">
             <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80" alt="پێلاڤ" class="product-img">
             <div class="product-info">
@@ -391,6 +394,33 @@
             </div>
         </div>
 
+        <!-- T-Shirt Items -->
+        <div class="product-card" data-category="shirt">
+            <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80" alt="تیشێرت" class="product-img">
+            <div class="product-info">
+                <span class="product-category">تیشێرت</span>
+                <h3 class="product-title">تیشێرتا مۆدێرنا ڕەش</h3>
+                <div class="product-price">25,000 دینار</div>
+                <a href="https://wa.me/YOUR_WHATSAPP_NUMBER?text=سڵاو، من حەز ڤێ کەلوپەلی دکەم: تیشێرتا مۆدێرنا ڕەش" target="_blank" class="buy-btn">
+                    <i class="fab fa-whatsapp"></i> داخوازکرن ب واتسئاپ
+                </a>
+            </div>
+        </div>
+
+        <!-- Hoodie Items -->
+        <div class="product-card" data-category="hoodie">
+            <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80" alt="هوودی" class="product-img">
+            <div class="product-info">
+                <span class="product-category">هوودی</span>
+                <h3 class="product-title">هوودیێ مۆدێرن یێ گەرم</h3>
+                <div class="product-price">35,000 دینار</div>
+                <a href="https://wa.me/YOUR_WHATSAPP_NUMBER?text=سڵاو، من حەز ڤێ کەلوپەلی دکەم: هوودیێ مۆدێرن یێ گەرم" target="_blank" class="buy-btn">
+                    <i class="fab fa-whatsapp"></i> داخوازکرن ب واتسئاپ
+                </a>
+            </div>
+        </div>
+
+        <!-- Jacket Items -->
         <div class="product-card" data-category="jacket">
             <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80" alt="چاکەت" class="product-img">
             <div class="product-info">
@@ -402,15 +432,27 @@
                 </a>
             </div>
         </div>
+
+        <!-- Cap Items -->
+        <div class="product-card" data-category="cap">
+            <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&q=80" alt="کڵاو" class="product-img">
+            <div class="product-info">
+                <span class="product-category">کڵاو</span>
+                <h3 class="product-title">کڵاوێ لۆکس یێ تایبەت</h3>
+                <div class="product-price">15,000 دینار</div>
+                <a href="https://wa.me/YOUR_WHATSAPP_NUMBER?text=سڵاو، من حەز ڤێ کەلوپەلی دکەم: کڵاوێ لۆکس یێ تایبەت" target="_blank" class="buy-btn">
+                    <i class="fab fa-whatsapp"></i> داخوازکرن ب واتسئاپ
+                </a>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Floating WhatsApp -->
     <a href="https://wa.me/YOUR_WHATSAPP_NUMBER" target="_blank" class="whatsapp-float">
         <i class="fab fa-whatsapp"></i>
     </a>
 
     <script>
-        // Toggle Hamburger Menu
         function toggleMenu() {
             const sideMenu = document.getElementById('sideMenu');
             const menuOverlay = document.getElementById('menuOverlay');
@@ -418,7 +460,6 @@
             menuOverlay.classList.toggle('active');
         }
 
-        // Toggle Dark / Light Mode (مط مظلم و فاتح)
         function toggleTheme() {
             const html = document.documentElement;
             const themeIcon = document.getElementById('theme-icon');
@@ -436,11 +477,10 @@
             }
         }
 
-        // Category Filter
         function filterProduct(category, event) {
             const buttons = document.querySelectorAll('.cat-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            event.target.closest('.cat-btn').classList.add('active');
 
             const cards = document.querySelectorAll('.product-card');
             cards.forEach(card => {
