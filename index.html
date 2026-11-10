@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RZ Brand | Luxury Collection</title>
+    <title>RZ Brand | High-End Collection</title>
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=Noto+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -16,6 +16,7 @@
             --border-color: #222226;
             --accent: #d4af37;
             --header-bg: rgba(12, 12, 14, 0.85);
+            --hero-bg: #18181c;
         }
 
         html.light {
@@ -26,6 +27,7 @@
             --border-color: #e5e5ea;
             --accent: #b8860b;
             --header-bg: rgba(242, 242, 247, 0.85);
+            --hero-bg: #e5e5ea;
         }
 
         * {
@@ -184,6 +186,7 @@
             object-fit: cover;
             border-radius: 16px;
             border: 1px solid var(--border-color);
+            background-color: var(--hero-bg);
         }
 
         /* Categories Bar */
@@ -353,9 +356,9 @@
         </ul>
     </div>
 
-    <!-- New Custom Hero Banner Image -->
+    <!-- Hero Banner with fallback -->
     <div class="hero-banner">
-        <img src="watermarked_img_6021016469587224921.jpg" alt="RZ Brand Hero Banner 2027">
+        <img src="hero.jpg" onerror="this.src='https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80'" alt="RZ Brand Hero Banner">
     </div>
 
     <!-- Filter Categories -->
