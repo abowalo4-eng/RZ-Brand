@@ -385,14 +385,14 @@
         <ul class="side-links">
             <li><a href="#" onclick="toggleMenu()"><i class="fas fa-home"></i> سەرەکی</a></li>
             <li><a href="https://maps.app.goo.gl/VbkZZed6Hf7g3emeA?g_st=ic" target="_blank"><i class="fas fa-map-marker-alt"></i> جهێ دکانی</a></li>
-            <li><a onclick="openAdminPanel()"><i class="fas fa-lock"></i> پەنێلا ادمینی</a></li>
+            <li><a onclick="openAdminPanel()"><i class="fas fa-lock"></i> ڕێڤەبەر</a></li>
             <li><a href="https://wa.me/9647507070313?text=سڵاو، پەیوەندی ب مە ڤە" target="_blank"><i class="fas fa-phone-alt"></i> پەیوەندی کردن</a></li>
         </ul>
     </div>
 
     <!-- Admin Panel Modal -->
     <div class="admin-modal" id="adminModal">
-        <h3>پەنێلا زێدەکرنا بەرهەمان</h3>
+        <h3>بەشێ ڕێڤەبەر (زێدەکرنا بەرهەمان)</h3>
         <div id="loginSection">
             <p style="font-size: 0.85rem; margin-bottom: 8px; color: var(--text-muted);">پاسوۆردی بنڤیسە:</p>
             <input type="password" id="adminPasswordInput" placeholder="پاسوۆرد">
@@ -436,10 +436,6 @@
     </a>
 
     <script>
-        // JSONBin Free API storage setup for global shared products
-        const BIN_ID = "65e64805dc74654018b14a2f"; // Public Shared Bin
-        const API_KEY = "$2a$10$7XvWkK555555555555555e..."; // Free endpoint storage
-
         let currentFilter = 'all';
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -494,7 +490,6 @@
             }
         }
 
-        // Default local/cloud fallback products if storage is empty
         let defaultProducts = [
             { category: 'kabu', title: 'پانتۆلێ کابو', price: '35,000 دینار', img: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=400&q=80' },
             { category: 'shoes', title: 'پێلاڤا وەرزشی', price: '45,000 دینار', img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80' },
@@ -526,7 +521,6 @@
             products.push({ category, title, price, img });
             localStorage.setItem('rz_products', JSON.stringify(products));
 
-            // Clear inputs and close
             document.getElementById('pTitle').value = '';
             document.getElementById('pPrice').value = '';
             document.getElementById('pImg').value = '';
