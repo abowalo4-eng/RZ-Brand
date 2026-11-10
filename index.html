@@ -407,6 +407,7 @@
                 <option value="shoes">پێلاڤ</option>
                 <option value="shirt">تیشێرت</option>
                 <option value="hoodie">هوودی</option>
+                <option value="soruban">سەروبەن</option>
                 <option value="jacket">چاکەت</option>
             </select>
             <button class="submit-admin" onclick="addNewProduct()">زێدەکرنا بەرهەمی</button>
@@ -422,6 +423,7 @@
             <button class="cat-btn" onclick="filterProduct('shoes', event)"><i class="fas fa-shoe-prints"></i> پێلاڤ</button>
             <button class="cat-btn" onclick="filterProduct('shirt', event)"><i class="fas fa-tshirt"></i> تیشێرت</button>
             <button class="cat-btn" onclick="filterProduct('hoodie', event)"><i class="fas fa-user-ninja"></i> هوودی</button>
+            <button class="cat-btn" onclick="filterProduct('soruban', event)"><i class="fas fa-hat-cowboy"></i> سەروبەن</button>
             <button class="cat-btn" onclick="filterProduct('jacket', event)"><i class="fas fa-user-tie"></i> چاکەت</button>
         </div>
     </div>
@@ -438,7 +440,7 @@
     <script>
         // Bin ID یا تە:
         const BIN_ID = "6af27259ac6210605a7b85cd"; 
-        // Access Key یا تە یا هاتیە زێدەکرن:
+        // Access Key یا تە:
         const API_KEY = "$2a$10$DU7A/Oq81NPGROytM7gdN.I6RDfGsq3.nIjEBNAJjJeDRy7RjuCSm"; 
 
         let currentFilter = 'all';
@@ -570,7 +572,16 @@
                 if(p.category === 'shoes') catName = 'پێلاڤ';
                 if(p.category === 'shirt') catName = 'تیشێرت';
                 if(p.category === 'hoodie') catName = 'هوودی';
+                if(p.category === 'soruban') catName = 'سەروبەن';
                 if(p.category === 'jacket') catName = 'چاکەت';
+
+                let itemNoun = "ڤی تشتی";
+                if (p.category === 'kabu') itemNoun = "ڤی کابوی";
+                else if (p.category === 'shoes') itemNoun = "ڤێ پێلاڤێ";
+                else if (p.category === 'shirt') itemNoun = "ڤی تیشێرتی";
+                else if (p.category === 'hoodie') itemNoun = "ڤی هوودیی";
+                else if (p.category === 'soruban') itemNoun = "ڤی سەروبەنی";
+                else if (p.category === 'jacket') itemNoun = "ڤی چاکەتی";
 
                 card.innerHTML = `
                     <img src="${p.img}" alt="${p.title}" class="product-img">
@@ -578,7 +589,7 @@
                         <span class="product-category">${catName}</span>
                         <h3 class="product-title">${p.title}</h3>
                         <div class="product-price">${p.price}</div>
-                        <button class="buy-btn" onclick="orderProduct('${p.category}', '${p.title}', '${p.price}')">
+                        <button class="buy-btn" onclick="orderProduct('${itemNoun}', '${p.title}', '${p.price}')">
                             <i class="fab fa-whatsapp"></i> داخوازکرن
                         </button>
                     </div>
@@ -595,16 +606,8 @@
             renderProducts(allProducts);
         }
 
-        function orderProduct(categoryType, title, price) {
+        function orderProduct(itemNoun, title, price) {
             const phoneNumber = "9647507070313";
-            let itemNoun = "ڤی تشتی";
-            
-            if (categoryType === 'kabu') itemNoun = "ڤی کابوی";
-            else if (categoryType === 'shoes') itemNoun = "ڤێ پێلاڤێ";
-            else if (categoryType === 'shirt') itemNoun = "ڤی تیشێرتی";
-            else if (categoryType === 'hoodie') itemNoun = "ڤی هوودیی";
-            else if (categoryType === 'jacket') itemNoun = "ڤی چاکەتی";
-
             const message = `سڵاو، من دڤێت ${itemNoun} داخواز بکەم:\n\n📦 ${title}\n💰 نرخ: ${price}`;
             const encodedMessage = encodeURIComponent(message);
             window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
