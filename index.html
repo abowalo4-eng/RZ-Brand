@@ -276,6 +276,12 @@
             font-weight: 600;
             font-size: 0.8rem;
             margin-top: 8px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .buy-btn:hover {
+            background: #20ba5a;
         }
 
         .whatsapp-float {
@@ -346,9 +352,9 @@
                 <span class="product-category">کابو</span>
                 <h3 class="product-title">پانتۆلێ کابو</h3>
                 <div class="product-price">35,000 دینار</div>
-                <a href="https://wa.me/9647507070313?text=سڵاو، من حەز ڤێ کەلوپەلی دکەم: پانتۆلێ کابو" target="_blank" class="buy-btn">
-                    <i class="fab fa-whatsapp"></i> واتسئاپ
-                </a>
+                <button class="buy-btn" onclick="orderProduct('پانتۆلێ کابو', '35,000 دینار')">
+                    <i class="fab fa-whatsapp"></i> داخوازکرن
+                </button>
             </div>
         </div>
 
@@ -359,9 +365,9 @@
                 <span class="product-category">پێلاڤ</span>
                 <h3 class="product-title">پێلاڤا وەرزشی</h3>
                 <div class="product-price">45,000 دینار</div>
-                <a href="https://wa.me/9647507070313?text=سڵاو، من حەز ڤێ کەلوپەلی دکەم: پێلاڤا وەرزشی" target="_blank" class="buy-btn">
-                    <i class="fab fa-whatsapp"></i> واتسئاپ
-                </a>
+                <button class="buy-btn" onclick="orderProduct('پێلاڤا وەرزشی', '45,000 دینار')">
+                    <i class="fab fa-whatsapp"></i> داخوازکرن
+                </button>
             </div>
         </div>
 
@@ -372,9 +378,9 @@
                 <span class="product-category">تیشێرت</span>
                 <h3 class="product-title">تیشێرتا ڕەش</h3>
                 <div class="product-price">25,000 دینار</div>
-                <a href="https://wa.me/9647507070313?text=سڵاو، من حەز ڤێ کەلوپەلی دکەم: تیشێرتا ڕەش" target="_blank" class="buy-btn">
-                    <i class="fab fa-whatsapp"></i> واتسئاپ
-                </a>
+                <button class="buy-btn" onclick="orderProduct('تیشێرتا ڕەش', '25,000 دینار')">
+                    <i class="fab fa-whatsapp"></i> داخوازکرن
+                </button>
             </div>
         </div>
 
@@ -385,9 +391,9 @@
                 <span class="product-category">هوودی</span>
                 <h3 class="product-title">هوودیێ گەرم</h3>
                 <div class="product-price">35,000 دینار</div>
-                <a href="https://wa.me/9647507070313?text=سڵاو، من حەز ڤێ کەلوپەلی دکەم: هوودیێ گەرم" target="_blank" class="buy-btn">
-                    <i class="fab fa-whatsapp"></i> واتسئاپ
-                </a>
+                <button class="buy-btn" onclick="orderProduct('هوودیێ گەرم', '35,000 دینار')">
+                    <i class="fab fa-whatsapp"></i> داخوازکرن
+                </button>
             </div>
         </div>
 
@@ -398,9 +404,9 @@
                 <span class="product-category">چاکەت</span>
                 <h3 class="product-title">چاکەتێ چەرم</h3>
                 <div class="product-price">65,000 دینار</div>
-                <a href="https://wa.me/9647507070313?text=سڵاو، من حەز ڤێ کەلوپەلی دکەم: چاکەتێ چەرم" target="_blank" class="buy-btn">
-                    <i class="fab fa-whatsapp"></i> واتسئاپ
-                </a>
+                <button class="buy-btn" onclick="orderProduct('چاکەتێ چەرم', '65,000 دینار')">
+                    <i class="fab fa-whatsapp"></i> داخوازکرن
+                </button>
             </div>
         </div>
 
@@ -448,6 +454,13 @@
                     card.style.display = 'none';
                 }
             });
+        }
+
+        function orderProduct(title, price) {
+            const phoneNumber = "9647507070313";
+            const message = `سڵاو، من ئەڤ تشتە دەمە (داخوازکرن):\n\n📦 ${title}\n💰 نرخ: ${price}`;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
         }
     </script>
 </body>
