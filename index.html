@@ -352,7 +352,7 @@
                 <span class="product-category">کابو</span>
                 <h3 class="product-title">پانتۆلێ کابو</h3>
                 <div class="product-price">35,000 دینار</div>
-                <button class="buy-btn" onclick="orderProduct('پانتۆلێ کابو', '35,000 دینار')">
+                <button class="buy-btn" onclick="orderProduct('کابو', 'پانتۆلێ کابو', '35,000 دینار')">
                     <i class="fab fa-whatsapp"></i> داخوازکرن
                 </button>
             </div>
@@ -365,7 +365,7 @@
                 <span class="product-category">پێلاڤ</span>
                 <h3 class="product-title">پێلاڤا وەرزشی</h3>
                 <div class="product-price">45,000 دینار</div>
-                <button class="buy-btn" onclick="orderProduct('پێلاڤا وەرزشی', '45,000 دینار')">
+                <button class="buy-btn" onclick="orderProduct('پێلاڤ', 'پێلاڤا وەرزشی', '45,000 دینار')">
                     <i class="fab fa-whatsapp"></i> داخوازکرن
                 </button>
             </div>
@@ -378,7 +378,7 @@
                 <span class="product-category">تیشێرت</span>
                 <h3 class="product-title">تیشێرتا ڕەش</h3>
                 <div class="product-price">25,000 دینار</div>
-                <button class="buy-btn" onclick="orderProduct('تیشێرتا ڕەش', '25,000 دینار')">
+                <button class="buy-btn" onclick="orderProduct('تیشێرت', 'تیشێرتا ڕەش', '25,000 دینار')">
                     <i class="fab fa-whatsapp"></i> داخوازکرن
                 </button>
             </div>
@@ -391,7 +391,7 @@
                 <span class="product-category">هوودی</span>
                 <h3 class="product-title">هوودیێ گەرم</h3>
                 <div class="product-price">35,000 دینار</div>
-                <button class="buy-btn" onclick="orderProduct('هوودیێ گەرم', '35,000 دینار')">
+                <button class="buy-btn" onclick="orderProduct('هوودی', 'هوودیێ گەرم', '35,000 دینار')">
                     <i class="fab fa-whatsapp"></i> داخوازکرن
                 </button>
             </div>
@@ -404,7 +404,7 @@
                 <span class="product-category">چاکەت</span>
                 <h3 class="product-title">چاکەتێ چەرم</h3>
                 <div class="product-price">65,000 دینار</div>
-                <button class="buy-btn" onclick="orderProduct('چاکەتێ چەرم', '65,000 دینار')">
+                <button class="buy-btn" onclick="orderProduct('چاکەت', 'چاکەتێ چەرم', '65,000 دینار')">
                     <i class="fab fa-whatsapp"></i> داخوازکرن
                 </button>
             </div>
@@ -456,9 +456,23 @@
             });
         }
 
-        function orderProduct(title, price) {
+        function orderProduct(categoryType, title, price) {
             const phoneNumber = "9647507070313";
-            const message = `سڵاو، من ئەڤ تشتە دەمە (داخوازکرن):\n\n📦 ${title}\n💰 نرخ: ${price}`;
+            let itemNoun = "ڤی تشتی";
+            
+            if (categoryType === 'کابو') {
+                itemNoun = "ڤی کابوی";
+            } else if (categoryType === 'پێلاڤ') {
+                itemNoun = "ڤێ پێلاڤێ";
+            } else if (categoryType === 'تیشێرت') {
+                itemNoun = "ڤی تیشێرتی";
+            } else if (categoryType === 'هوودی') {
+                itemNoun = "ڤی هوودیی";
+            } else if (categoryType === 'چاکەت') {
+                itemNoun = "ڤی چاکەتی";
+            }
+
+            const message = `سڵاو، من دڤێت ${itemNoun} داخواز بکەم:\n\n📦 ${title}\n💰 نرخ: ${price}`;
             const encodedMessage = encodeURIComponent(message);
             window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
         }
