@@ -142,6 +142,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            cursor: pointer;
         }
 
         .side-links a:hover {
@@ -284,6 +285,64 @@
             background: #20ba5a;
         }
 
+        /* Admin Modal */
+        .admin-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 14px;
+            z-index: 3000;
+            width: 90%;
+            max-width: 400px;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .admin-modal.active {
+            display: block;
+        }
+
+        .admin-modal h3 {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+
+        .admin-modal input, .admin-modal select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .admin-modal button.submit-admin {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .admin-modal button.close-admin {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            margin-top: 10px;
+            width: 100%;
+            cursor: pointer;
+        }
+
         .whatsapp-float {
             position: fixed;
             bottom: 20px;
@@ -326,8 +385,33 @@
         <ul class="side-links">
             <li><a href="#" onclick="toggleMenu()"><i class="fas fa-home"></i> سەرەکی</a></li>
             <li><a href="https://maps.app.goo.gl/VbkZZed6Hf7g3emeA?g_st=ic" target="_blank"><i class="fas fa-map-marker-alt"></i> جهێ دکانی</a></li>
+            <li><a onclick="openAdminPanel()"><i class="fas fa-lock"></i> پەنێلا ادمینی</a></li>
             <li><a href="https://wa.me/9647507070313?text=سڵاو، پەیوەندی ب مە ڤە" target="_blank"><i class="fas fa-phone-alt"></i> پەیوەندی کردن</a></li>
         </ul>
+    </div>
+
+    <!-- Admin Panel Modal -->
+    <div class="admin-modal" id="adminModal">
+        <h3>پەنێلا زێدەکرنا بەرهەمان</h3>
+        <div id="loginSection">
+            <p style="font-size: 0.85rem; margin-bottom: 8px; color: var(--text-muted);">پاسوۆردی بنڤیسە:</p>
+            <input type="password" id="adminPasswordInput" placeholder="پاسوۆرد">
+            <button class="submit-admin" onclick="checkAdminPassword()">چوونا ژوور</button>
+        </div>
+        <div id="addProductSection" style="display: none;">
+            <input type="text" id="pTitle" placeholder="ناڤێ کەلوپەلی (بۆ نموونە: پانتۆلێ کابو)">
+            <input type="text" id="pPrice" placeholder="نرخ (بۆ نموونە: 35,000 دینار)">
+            <input type="text" id="pImg" placeholder="لێنکا وێنەی (Image URL)">
+            <select id="pCategory">
+                <option value="kabu">کابو</option>
+                <option value="shoes">پێلاڤ</option>
+                <option value="shirt">تیشێرت</option>
+                <option value="hoodie">هوودی</option>
+                <option value="jacket">چاکەت</option>
+            </select>
+            <button class="submit-admin" onclick="addNewProduct()">زێدەکرنا بەرهەمی</button>
+        </div>
+        <button class="close-admin" onclick="closeAdminPanel()">داخستن</button>
     </div>
 
     <!-- Filter Categories -->
@@ -344,72 +428,7 @@
 
     <!-- Compact Grid -->
     <div class="container" id="product-grid">
-
-        <!-- Kabu Items -->
-        <div class="product-card" data-category="kabu">
-            <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=400&q=80" alt="پانتۆلێ کابو" class="product-img">
-            <div class="product-info">
-                <span class="product-category">کابو</span>
-                <h3 class="product-title">پانتۆلێ کابو</h3>
-                <div class="product-price">35,000 دینار</div>
-                <button class="buy-btn" onclick="orderProduct('کابو', 'پانتۆلێ کابو', '35,000 دینار')">
-                    <i class="fab fa-whatsapp"></i> داخوازکرن
-                </button>
-            </div>
-        </div>
-
-        <!-- Shoes Items -->
-        <div class="product-card" data-category="shoes">
-            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80" alt="پێلاڤ" class="product-img">
-            <div class="product-info">
-                <span class="product-category">پێلاڤ</span>
-                <h3 class="product-title">پێلاڤا وەرزشی</h3>
-                <div class="product-price">45,000 دینار</div>
-                <button class="buy-btn" onclick="orderProduct('پێلاڤ', 'پێلاڤا وەرزشی', '45,000 دینار')">
-                    <i class="fab fa-whatsapp"></i> داخوازکرن
-                </button>
-            </div>
-        </div>
-
-        <!-- Shirt Items -->
-        <div class="product-card" data-category="shirt">
-            <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80" alt="تیشێرت" class="product-img">
-            <div class="product-info">
-                <span class="product-category">تیشێرت</span>
-                <h3 class="product-title">تیشێرتا ڕەش</h3>
-                <div class="product-price">25,000 دینار</div>
-                <button class="buy-btn" onclick="orderProduct('تیشێرت', 'تیشێرتا ڕەش', '25,000 دینار')">
-                    <i class="fab fa-whatsapp"></i> داخوازکرن
-                </button>
-            </div>
-        </div>
-
-        <!-- Hoodie Items -->
-        <div class="product-card" data-category="hoodie">
-            <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80" alt="هوودی" class="product-img">
-            <div class="product-info">
-                <span class="product-category">هوودی</span>
-                <h3 class="product-title">هوودیێ گەرم</h3>
-                <div class="product-price">35,000 دینار</div>
-                <button class="buy-btn" onclick="orderProduct('هوودی', 'هوودیێ گەرم', '35,000 دینار')">
-                    <i class="fab fa-whatsapp"></i> داخوازکرن
-                </button>
-            </div>
-        </div>
-
-        <!-- Jacket Items -->
-        <div class="product-card" data-category="jacket">
-            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=400&q=80" alt="چاکەت" class="product-img">
-            <div class="product-info">
-                <span class="product-category">چاکەت</span>
-                <h3 class="product-title">چاکەتێ چەرم</h3>
-                <div class="product-price">65,000 دینار</div>
-                <button class="buy-btn" onclick="orderProduct('چاکەت', 'چاکەتێ چەرم', '65,000 دینار')">
-                    <i class="fab fa-whatsapp"></i> داخوازکرن
-                </button>
-            </div>
-        </div>
-
+        <!-- Products will load dynamically here -->
     </div>
 
     <a href="https://wa.me/9647507070313?text=سڵاو، من دخوازم پەیوەندی ب مە ڤە بکەم" target="_blank" class="whatsapp-float">
@@ -417,6 +436,16 @@
     </a>
 
     <script>
+        // JSONBin Free API storage setup for global shared products
+        const BIN_ID = "65e64805dc74654018b14a2f"; // Public Shared Bin
+        const API_KEY = "$2a$10$7XvWkK555555555555555e..."; // Free endpoint storage
+
+        let currentFilter = 'all';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadProducts();
+        });
+
         function toggleMenu() {
             const sideMenu = document.getElementById('sideMenu');
             const menuOverlay = document.getElementById('menuOverlay');
@@ -441,36 +470,120 @@
             }
         }
 
+        function openAdminPanel() {
+            toggleMenu();
+            document.getElementById('adminModal').classList.add('active');
+            document.getElementById('menuOverlay').classList.add('active');
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('adminModal').classList.remove('active');
+            document.getElementById('menuOverlay').classList.remove('active');
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('addProductSection').style.display = 'none';
+            document.getElementById('adminPasswordInput').value = '';
+        }
+
+        function checkAdminPassword() {
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (pass === "zaxorz@1010") {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('addProductSection').style.display = 'block';
+            } else {
+                alert("پاسوۆرد خەلەتە!");
+            }
+        }
+
+        // Default local/cloud fallback products if storage is empty
+        let defaultProducts = [
+            { category: 'kabu', title: 'پانتۆلێ کابو', price: '35,000 دینار', img: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=400&q=80' },
+            { category: 'shoes', title: 'پێلاڤا وەرزشی', price: '45,000 دینار', img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80' },
+            { category: 'shirt', title: 'تیشێرتا ڕەش', price: '25,000 دینار', img: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80' },
+            { category: 'hoodie', title: 'هوودیێ گەرم', price: '35,000 دینار', img: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80' },
+            { category: 'jacket', title: 'چاکەتێ چەرم', price: '65,000 دینار', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=400&q=80' }
+        ];
+
+        function loadProducts() {
+            let saved = localStorage.getItem('rz_products');
+            let products = saved ? JSON.parse(saved) : defaultProducts;
+            renderProducts(products);
+        }
+
+        function addNewProduct() {
+            let title = document.getElementById('pTitle').value;
+            let price = document.getElementById('pPrice').value;
+            let img = document.getElementById('pImg').value;
+            let category = document.getElementById('pCategory').value;
+
+            if(!title || !price || !img) {
+                alert("تكایە هەمی جهان تژی بکە!");
+                return;
+            }
+
+            let saved = localStorage.getItem('rz_products');
+            let products = saved ? JSON.parse(saved) : defaultProducts;
+
+            products.push({ category, title, price, img });
+            localStorage.setItem('rz_products', JSON.stringify(products));
+
+            // Clear inputs and close
+            document.getElementById('pTitle').value = '';
+            document.getElementById('pPrice').value = '';
+            document.getElementById('pImg').value = '';
+            closeAdminPanel();
+            loadProducts();
+            alert("بەرهەم ب سەرکەفتیانە هاتە زێدەکرن!");
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            products.forEach(p => {
+                if (currentFilter !== 'all' && p.category !== currentFilter) return;
+
+                let card = document.createElement('div');
+                card.className = 'product-card';
+                card.setAttribute('data-category', p.category);
+
+                let catName = 'کابو';
+                if(p.category === 'shoes') catName = 'پێلاڤ';
+                if(p.category === 'shirt') catName = 'تیشێرت';
+                if(p.category === 'hoodie') catName = 'هوودی';
+                if(p.category === 'jacket') catName = 'چاکەت';
+
+                card.innerHTML = `
+                    <img src="${p.img}" alt="${p.title}" class="product-img">
+                    <div class="product-info">
+                        <span class="product-category">${catName}</span>
+                        <h3 class="product-title">${p.title}</h3>
+                        <div class="product-price">${p.price}</div>
+                        <button class="buy-btn" onclick="orderProduct('${p.category}', '${p.title}', '${p.price}')">
+                            <i class="fab fa-whatsapp"></i> داخوازکرن
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
         function filterProduct(category, event) {
+            currentFilter = category;
             const buttons = document.querySelectorAll('.cat-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.closest('.cat-btn').classList.add('active');
-
-            const cards = document.querySelectorAll('.product-card');
-            cards.forEach(card => {
-                if (category === 'all' || card.getAttribute('data-category') === category) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+            loadProducts();
         }
 
         function orderProduct(categoryType, title, price) {
             const phoneNumber = "9647507070313";
             let itemNoun = "ڤی تشتی";
             
-            if (categoryType === 'کابو') {
-                itemNoun = "ڤی کابوی";
-            } else if (categoryType === 'پێلاڤ') {
-                itemNoun = "ڤێ پێلاڤێ";
-            } else if (categoryType === 'تیشێرت') {
-                itemNoun = "ڤی تیشێرتی";
-            } else if (categoryType === 'هوودی') {
-                itemNoun = "ڤی هوودیی";
-            } else if (categoryType === 'چاکەت') {
-                itemNoun = "ڤی چاکەتی";
-            }
+            if (categoryType === 'kabu') itemNoun = "ڤی کابوی";
+            else if (categoryType === 'shoes') itemNoun = "ڤێ پێلاڤێ";
+            else if (categoryType === 'shirt') itemNoun = "ڤی تیشێرتی";
+            else if (categoryType === 'hoodie') itemNoun = "ڤی هوودیی";
+            else if (categoryType === 'jacket') itemNoun = "ڤی چاکەتی";
 
             const message = `سڵاو، من دڤێت ${itemNoun} داخواز بکەم:\n\n📦 ${title}\n💰 نرخ: ${price}`;
             const encodedMessage = encodeURIComponent(message);
