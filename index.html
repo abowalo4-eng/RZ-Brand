@@ -436,9 +436,10 @@
     </a>
 
     <script>
-        // Direct Cloud JSONBin Configuration for Real-time Global Synchronization
-        const BIN_ID = "65e64805dc74654018b14a2f"; 
-        const API_KEY = "$2a$10$7XvWkK555555555555555e..."; 
+        // Bin ID یا تە:
+        const BIN_ID = "6af27259ac6210605a7b85cd"; 
+        // Access Key یا تە (ئەو کلیلا تو لەسەر JSONBin چێکری د ناڤ ڤان دوو پشکێن "" دا بنڤیسە):
+        const API_KEY = "YOUR_ACCESS_KEY"; 
 
         let currentFilter = 'all';
         let allProducts = [];
@@ -495,23 +496,19 @@
             }
         }
 
-        // Fetch products globally from JSONbin API (fallback to local storage for offline reliability)
         async function loadProducts() {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0;">بەرهەم باردبن...</p>';
 
             try {
                 let response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-                    headers: { 'X-Master-Key': API_KEY }
+                    headers: { 'X-Access-Key': API_KEY }
                 });
                 let data = await response.json();
                 allProducts = data.record && data.record.products ? data.record.products : [];
                 renderProducts(allProducts);
             } catch (error) {
-                // Fallback to local storage if offline
-                let saved = localStorage.getItem('rz_fallback_products');
-                allProducts = saved ? JSON.parse(saved) : [];
-                renderProducts(allProducts);
+                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0;">ئاریشا بارکرنا بەرهەمان هەبوو.</p>';
             }
         }
 
@@ -528,19 +525,17 @@
 
             allProducts.push({ category, title, price, img });
 
-            // Update globally on JSONBin Cloud API
             try {
                 let response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-Master-Key': API_KEY
+                        'X-Access-Key': API_KEY
                     },
                     body: JSON.stringify({ products: allProducts })
                 });
 
                 if(response.ok) {
-                    localStorage.setItem('rz_fallback_products', JSON.stringify(allProducts));
                     document.getElementById('pTitle').value = '';
                     document.getElementById('pPrice').value = '';
                     document.getElementById('pImg').value = '';
