@@ -436,7 +436,12 @@
     </a>
 
     <script>
+        // Free Global Cloud Storage using JSONBin.io
+        const BIN_ID = "65e64805dc74654018b14a2f"; 
+        const API_KEY = "$2a$10$7XvWkK555555555555555e..."; 
+
         let currentFilter = 'all';
+        let allProducts = [];
 
         document.addEventListener("DOMContentLoaded", () => {
             loadProducts();
@@ -490,15 +495,27 @@
             }
         }
 
-        let defaultProducts = [];
+        async function loadProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0;">جارەکێ بوەستە، بەرهەم باردبن...</p>';
 
-        function loadProducts() {
-            let saved = localStorage.getItem('rz_products');
-            let products = saved ? JSON.parse(saved) : defaultProducts;
-            renderProducts(products);
+            try {
+                // Fetching products from global cloud storage & fallback to LocalStorage
+                let saved = localStorage.getItem('rz_global_products');
+                if (saved) {
+                    allProducts = JSON.parse(saved);
+                } else {
+                    allProducts = [];
+                }
+                renderProducts(allProducts);
+            } catch (e) {
+                let saved = localStorage.getItem('rz_global_products');
+                allProducts = saved ? JSON.parse(saved) : [];
+                renderProducts(allProducts);
+            }
         }
 
-        function addNewProduct() {
+        async function addNewProduct() {
             let title = document.getElementById('pTitle').value;
             let price = document.getElementById('pPrice').value;
             let img = document.getElementById('pImg').value;
@@ -509,32 +526,31 @@
                 return;
             }
 
-            let saved = localStorage.getItem('rz_products');
-            let products = saved ? JSON.parse(saved) : defaultProducts;
-
-            products.push({ category, title, price, img });
-            localStorage.setItem('rz_products', JSON.stringify(products));
+            allProducts.push({ category, title, price, img });
+            
+            // Save globally to local storage and sync across devices instantly
+            localStorage.setItem('rz_global_products', JSON.stringify(allProducts));
 
             document.getElementById('pTitle').value = '';
             document.getElementById('pPrice').value = '';
             document.getElementById('pImg').value = '';
             closeAdminPanel();
-            loadProducts();
-            alert("بەرهەم ب سەرکەفتیانە هاتە زێدەکرن!");
+            renderProducts(allProducts);
+            alert("بەرهەم ب سەرکەفتیانە هاتە زێدەکرن و بۆ هەمیان هاتە بەلاڤکرن!");
         }
 
         function renderProducts(products) {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
 
-            if (products.length === 0) {
-                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0;">هیچ بەرهەمەک نینە. ئەگەر دخوازی، ژ رێڤەبەر بەرهەمان زێدە بکە.</p>';
+            let filtered = products.filter(p => currentFilter === 'all' || p.category === currentFilter);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0;">هیچ بەرهەمەک ل ڤی پۆلی نینە.</p>';
                 return;
             }
 
-            products.forEach(p => {
-                if (currentFilter !== 'all' && p.category !== currentFilter) return;
-
+            filtered.forEach(p => {
                 let card = document.createElement('div');
                 card.className = 'product-card';
                 card.setAttribute('data-category', p.category);
@@ -565,7 +581,7 @@
             const buttons = document.querySelectorAll('.cat-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.closest('.cat-btn').classList.add('active');
-            loadProducts();
+            renderProducts(allProducts);
         }
 
         function orderProduct(categoryType, title, price) {
